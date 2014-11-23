@@ -4,6 +4,10 @@
   font-family: raleway-thin;
   src: url(../fonts/raleway-thin.ttf);
 }
+@font-face {
+  font-family: raleway-regular;
+  src: url(../fonts/raleway-regular.ttf);
+}
 
 h1,h2,h3,h4,h5,h6 {
   font-family: raleway-thin;
@@ -75,7 +79,7 @@ h1,h2,h3,h4,h5,h6 {
   position: absolute;
   bottom: 0px;
   top:60px;
-  width: 300px;
+  width: 200px;
   z-index: 2;
 }
 .music{
@@ -92,7 +96,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .offset{
-  margin-left: 300px;
+  margin-left: 200px;
 
 }
 
@@ -118,6 +122,53 @@ h1,h2,h3,h4,h5,h6 {
   padding-left: 14%;
 }
 
+.albumArt {
+  width: 300px;
+  padding: 10px;
+}
+.info {
+  padding: 10px;
+  padding-top: 0px;
+  h2, h3 {
+    font-family: raleway-regular;
+    line-height: 10px;
+    text-transform: uppercase;
+  }
+  h2 {
+    font-size: 16px;
+
+  }
+  h3{
+    font-size: 14px;
+  }
+}
+hr {
+  margin: 0;
+  padding: 0;
+}
+.add{
+  background-color: @primary;
+  border-radius: 50px;
+  width: 32px;
+  height: 32px;
+  margin-left: 80px;
+  position: relative;
+  top: -10px;
+  z-index: 4;
+  h1 {
+    color: white;
+    padding: 0px;
+    margin: 0px;
+    line-height: 31px;
+  }
+}
+.bottom {
+  background-color: #fefefe;
+  height: 100%;
+  position: relative;
+  top: -27px;
+  z-index: 3;
+}
 
 
 

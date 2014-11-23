@@ -1,6 +1,6 @@
 html(lang='en')
   head
-    //- link(href="./bower_components/foundation-5/css/normalize.css", rel="stylesheet")
+    link(href="./bower_components/foundation-5/css/normalize.css", rel="stylesheet")
     link(href="./bower_components/foundation-5/css/foundation.css", rel="stylesheet")
     link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css", rel="stylesheet")
     link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css", rel="stylesheet")
@@ -38,6 +38,21 @@ html(lang='en')
               i.pe-7s-menu.pe-2x
         .sideBar(ng-show="sideBar").slideRight
           .sideBarContainer(ng-class="{downset: menu}")
+            .top
+              .art
+                img.albumArt(src="./assets/images/noArt.png")
+              .info
+                h2 Track
+                h3 Album
+                h3 Artist
+              .emblem.center
+                .add.center
+                  h1 +
+            .bottom
+              //- table.links
+              //-   tr
+              //-     td
+
         .music(ng-class="{offset: sideBar, downset: menu}")
 
 

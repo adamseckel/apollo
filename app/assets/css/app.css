@@ -2,6 +2,10 @@
   font-family: raleway-thin;
   src: url(../fonts/raleway-thin.ttf);
 }
+@font-face {
+  font-family: raleway-regular;
+  src: url(../fonts/raleway-regular.ttf);
+}
 h1,
 h2,
 h3,
@@ -81,7 +85,7 @@ h6 {
   position: absolute;
   bottom: 0px;
   top: 60px;
-  width: 300px;
+  width: 200px;
   z-index: 2;
 }
 .music {
@@ -97,7 +101,7 @@ h6 {
   -webkit-transition: 0.1s linear all;
 }
 .offset {
-  margin-left: 300px;
+  margin-left: 200px;
 }
 .inputWrapper {
   height: 32px;
@@ -119,6 +123,53 @@ h6 {
 .inputCtrl {
   padding-right: 50px;
   padding-left: 14%;
+}
+.albumArt {
+  width: 300px;
+  padding: 10px;
+}
+.info {
+  padding: 10px;
+  padding-top: 0px;
+}
+.info h2,
+.info h3 {
+  font-family: raleway-regular;
+  line-height: 10px;
+  text-transform: uppercase;
+}
+.info h2 {
+  font-size: 16px;
+}
+.info h3 {
+  font-size: 14px;
+}
+hr {
+  margin: 0;
+  padding: 0;
+}
+.add {
+  background-color: #e74c3c;
+  border-radius: 50px;
+  width: 32px;
+  height: 32px;
+  margin-left: 80px;
+  position: relative;
+  top: -10px;
+  z-index: 4;
+}
+.add h1 {
+  color: white;
+  padding: 0px;
+  margin: 0px;
+  line-height: 31px;
+}
+.bottom {
+  background-color: #fefefe;
+  height: 100%;
+  position: relative;
+  top: -27px;
+  z-index: 3;
 }
 /*ANIMATIONS*/
 /*SlideDown - SubMenu*/

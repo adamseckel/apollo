@@ -1,6 +1,7 @@
 
 <html lang="en">
   <head>
+    <link href="./bower_components/foundation-5/css/normalize.css" rel="stylesheet"/>
     <link href="./bower_components/foundation-5/css/foundation.css" rel="stylesheet"/>
     <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css" rel="stylesheet"/>
     <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet"/>
@@ -37,7 +38,23 @@
           </div>
         </div>
         <div ng-show="sideBar" class="sideBar slideRight">
-          <div ng-class="{downset: menu}" class="sideBarContainer"></div>
+          <div ng-class="{downset: menu}" class="sideBarContainer">
+            <div class="top">
+              <div class="art"><img src="./assets/images/noArt.png" class="albumArt"/></div>
+              <div class="info">
+                <h2>Track</h2>
+                <h3>Album</h3>
+                <h3>Artist</h3>
+              </div>
+              <div class="emblem center">
+                <div class="add center">
+                  <h1>+</h1>
+                </div>
+              </div>
+            </div>
+            <div class="bottom">
+            </div>
+          </div>
         </div>
         <div ng-class="{offset: sideBar, downset: menu}" class="music"></div>
       </div>
