@@ -1,0 +1,52 @@
+
+<html lang="en">
+  <head>
+    <link href="./bower_components/foundation-5/css/foundation.css" rel="stylesheet"/>
+    <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css" rel="stylesheet"/>
+    <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet"/>
+    <link href="./assets/css/app.css" rel="stylesheet"/>
+    <script src="./bower_components/angular/angular.js"></script>
+    <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <script src="./bower_components/angular-animate/angular-animate.js"></script>
+    <script src="./bower_components/angular-foundation/mm-foundation.js"></script>
+    <script src="./assets/js/app.js"></script>
+  </head>
+  <body ng-app="apollo">
+    <div ng-controller="menuCtrl" class="top">
+      <div class="topbar"> 
+        <div class="small-4 large-4 columns left"> 
+          <div class="switch">
+            <input id="exampleCheckboxSwitch" type="checkbox" ng-click="sideBar = !sideBar"/>
+            <label for="exampleCheckboxSwitch"></label>
+          </div>
+        </div>
+        <div class="small-4 large-4 columns center"> 
+          <h5>APOLLO</h5>
+        </div>
+        <div class="small-4 large-4 columns right"> <a href="javascript:void(0)" ng-click="menu = !menu"><i class="pe-7s-menu pe-2x"></i></a></div>
+      </div>
+      <div class="content">
+        <div ng-show="menu" class="menu fadeDown">
+          <div class="row center">
+            <div class="columns large-4 small-4 inputCtrl">
+              <div class="inputWrapper center"><i class="pe-7s-plus pe-2x">
+                  <input id="fileDialog" type="file" accept=".xml" class="fileInput"/></i></div>
+            </div>
+            <div class="columns large-4 small-4"><i class="pe-7s-menu pe-2x">         </i></div>
+            <div class="columns large-4 small-4"><i class="pe-7s-menu pe-2x"></i></div>
+          </div>
+        </div>
+        <div ng-show="sideBar" class="sideBar slideRight">
+          <div ng-class="{downset: menu}" class="sideBarContainer"></div>
+        </div>
+        <div ng-class="{offset: sideBar, downset: menu}" class="music"></div>
+      </div>
+    </div>
+    <script>
+      var gui = require('nw.gui');
+      var mb = new gui.Menu({type:"menubar"});
+      mb.createMacBuiltin("your-app-name");
+      gui.Window.get().menu = mb;
+    </script>
+  </body>
+</html>

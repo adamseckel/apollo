@@ -1,0 +1,153 @@
+@primary: #E74C3C;
+
+@font-face {
+  font-family: raleway-thin;
+  src: url(../fonts/raleway-thin.ttf);
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: raleway-thin;
+
+}
+.left{
+  text-align: left;
+  /*background-color: blue;*/
+}
+.center{
+  text-align: center;
+  /*background-color: green;*/
+}
+.right{
+  text-align: right;
+  /*background-color: yellow;*/
+}
+.row {
+  max-width: none;
+}
+
+.topbar{
+  background-color: @primary;
+  cursor: default;
+  -webkit-app-region: drag;
+  z-index: 5;
+  position: relative;
+  height: 60px;
+  padding-top: 14px;
+  padding-right: 5px;
+  padding-left: 5px;
+  h1,h2,h3,h4,h5,h6,i{
+    color: white;
+    cursor: default;
+  }
+  i{
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+  }
+  .switch {
+    margin-top: 4px;
+    -webkit-app-region: no-drag;
+  }
+  .frame {
+    padding-right: 10px;
+  }
+  .logo {
+    width: 100px;
+  }
+}
+.content{
+  -webkit-app-region: no-drag;
+}
+.menu{
+  border-bottom: 1px #eeeeee solid;
+  position: relative;
+  background-color: white;
+  height:50px;
+  width: 100%;
+  padding-top: 7px;
+  z-index: 3;
+  a {
+    color: black;
+  }
+}
+.sideBar{
+  border-right: 1px solid #eeeeee;
+  background-color: white;
+  position: absolute;
+  bottom: 0px;
+  top:60px;
+  width: 300px;
+  z-index: 2;
+}
+.music{
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+  top: 60px;
+  -webkit-transition: 0.1s linear all;
+  -webkit-app-region: no-drag;
+}
+.downset{
+  margin-top: 50px;
+  -webkit-transition: 0.1s linear all;
+}
+
+.offset{
+  margin-left: 300px;
+
+}
+
+.inputWrapper {
+  height: 32px;
+  width: 64px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.fileInput {
+  cursor: pointer;
+  height: 100%;
+  position:absolute;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  font-size:50px;
+  opacity: 0;
+}
+.inputCtrl {
+  padding-right: 50px;
+  padding-left: 14%;
+}
+
+
+
+
+/*ANIMATIONS*/
+
+/*SlideDown - SubMenu*/
+.fadeDown {
+  top: 0px;
+  overflow: hidden;
+}
+.fadeDown.ng-hide {
+  top: -50px;
+}
+.fadeDown.ng-hide-add,
+.fadeDown.ng-hide-remove {
+  -webkit-transition: 0.1s linear all;
+}
+
+/*SlideRight-PullOut*/
+.slideRight{
+  left: 0px;
+  overflow: hidden;
+}
+.slideRight.ng-hide{
+  left: -300px;
+}
+.slideRight.ng-hide-add,
+.slideRight.ng-hide-remove {
+  -webkit-transition: 0.1s linear all;
+}
+.sideBarContainer {
+  -webkit-transition: 0.1s linear all;
+}

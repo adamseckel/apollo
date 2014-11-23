@@ -1,0 +1,50 @@
+html(lang='en')
+  head
+    //- link(href="./bower_components/foundation-5/css/normalize.css", rel="stylesheet")
+    link(href="./bower_components/foundation-5/css/foundation.css", rel="stylesheet")
+    link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css", rel="stylesheet")
+    link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css", rel="stylesheet")
+    link(href="./assets/css/app.css", rel="stylesheet")
+    script(src="./bower_components/angular/angular.js")
+    script(src="./bower_components/jquery/dist/jquery.js")
+    script(src="./bower_components/angular-animate/angular-animate.js")
+    script(src="./bower_components/angular-foundation/mm-foundation.js")
+    script(src="./assets/js/app.js")
+
+
+
+  body(ng-app="apollo")
+    .top(ng-controller="menuCtrl")
+      .topbar  
+        .small-4.large-4.columns.left 
+          .switch
+            input#exampleCheckboxSwitch(type="checkbox" ng-click="sideBar = !sideBar")
+            label(for="exampleCheckboxSwitch")
+        .small-4.large-4.columns.center 
+          h5 APOLLO
+        .small-4.large-4.columns.right 
+          a(href="javascript:void(0)" ng-click="menu = !menu")
+            i.pe-7s-menu.pe-2x
+      .content
+        .menu(ng-show="menu").fadeDown
+          .row.center
+            .columns.large-4.small-4.inputCtrl
+              .inputWrapper.center
+                i.pe-7s-plus.pe-2x
+                  input.fileInput(id="fileDialog" type="file" accept=".xml")
+            .columns.large-4.small-4
+              i.pe-7s-menu.pe-2x          
+            .columns.large-4.small-4
+              i.pe-7s-menu.pe-2x
+        .sideBar(ng-show="sideBar").slideRight
+          .sideBarContainer(ng-class="{downset: menu}")
+        .music(ng-class="{offset: sideBar, downset: menu}")
+
+
+    script.
+      var gui = require('nw.gui');
+      var mb = new gui.Menu({type:"menubar"});
+      mb.createMacBuiltin("your-app-name");
+      gui.Window.get().menu = mb;
+
+
