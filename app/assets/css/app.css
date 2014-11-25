@@ -73,11 +73,16 @@ h6 {
   background-color: white;
   height: 50px;
   width: 100%;
-  padding-top: 7px;
+  /*padding-top: 5px;*/
   z-index: 3;
 }
 .menu a {
   color: black;
+}
+.menu .column,
+.menu .columns {
+  padding-right: 0px;
+  padding-left: 0px;
 }
 .sideBar {
   border-right: 1px solid #eeeeee;
@@ -100,15 +105,34 @@ h6 {
   margin-top: 50px;
   -webkit-transition: 0.1s linear all;
 }
-.offset {
+/*.offset{
   margin-left: 200px;
-}
+
+}*/
+.menuIcon,
 .inputWrapper {
-  height: 32px;
-  width: 64px;
-  overflow: hidden;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 5px;
+  height: 100%;
+  width: 100%;
+  padding-top: 7px;
   position: relative;
   cursor: pointer;
+  /*border-radius: 50px;*/
+  -webkit-transition: background-color 0.2s, color 0.2s;
+  /*  i {
+    -webkit-transition: color 0.2s; 
+  }*/
+}
+.menuIcon:hover,
+.inputWrapper:hover {
+  background-color: #dedede;
+  -webkit-transition: background-color 0.2s;
+  /* i {
+      color: white;
+      -webkit-transition: color 0.2s;
+    }*/
 }
 .fileInput {
   cursor: pointer;
@@ -171,6 +195,22 @@ hr {
   top: -27px;
   z-index: 3;
 }
+.settings {
+  position: absolute;
+  top: 60px;
+  z-index: 99999;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #e74c3c;
+}
+.closeRight {
+  padding-right: 7px;
+  line-height: 30px !important;
+}
+.hidden {
+  opacity: 0;
+}
 /*ANIMATIONS*/
 /*SlideDown - SubMenu*/
 .fadeDown {
@@ -182,6 +222,17 @@ hr {
 }
 .fadeDown.ng-hide-add,
 .fadeDown.ng-hide-remove {
+  -webkit-transition: 0.1s linear all;
+}
+/*Opacity In*/
+.fadeIn {
+  opacity: 1;
+}
+.fadeIn.ng-hide {
+  opacity: 0;
+}
+.fadeIn.ng-hide-add,
+.fadeIn.ng-hide-remove {
   -webkit-transition: 0.1s linear all;
 }
 /*SlideRight-PullOut*/
@@ -198,4 +249,19 @@ hr {
 }
 .sideBarContainer {
   -webkit-transition: 0.1s linear all;
+}
+.tooltip {
+  position: absolute;
+  color: #fff;
+  background: #000;
+  border-radius: 3px;
+  padding: 10px 20px;
+  display: inline-block;
+}
+.tooltip.ng-enter {
+  opacity: 0;
+  transition: opacity 1s;
+}
+.tooltip.ng-enter-active {
+  opacity: 1;
 }

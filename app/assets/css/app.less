@@ -1,4 +1,9 @@
 @primary: #E74C3C;
+@lighter: #FD7468;
+@darker: #A1120E;
+@grayDark: #645858;
+@grayLight: #C3BABA;
+@grayLighter: #DEDEDE;
 
 @font-face {
   font-family: raleway-thin;
@@ -11,7 +16,6 @@
 
 h1,h2,h3,h4,h5,h6 {
   font-family: raleway-thin;
-
 }
 .left{
   text-align: left;
@@ -67,10 +71,14 @@ h1,h2,h3,h4,h5,h6 {
   background-color: white;
   height:50px;
   width: 100%;
-  padding-top: 7px;
+  /*padding-top: 5px;*/
   z-index: 3;
   a {
     color: black;
+  }
+  .column, .columns{
+    padding-right: 0px;
+    padding-left: 0px;
   }
 }
 .sideBar{
@@ -95,18 +103,35 @@ h1,h2,h3,h4,h5,h6 {
   -webkit-transition: 0.1s linear all;
 }
 
-.offset{
+/*.offset{
   margin-left: 200px;
 
-}
+}*/
 
-.inputWrapper {
-  height: 32px;
-  width: 64px;
-  overflow: hidden;
+.menuIcon, .inputWrapper{
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 5px;
+  height: 100%;
+  width: 100%;
+  padding-top: 7px;
   position: relative;
   cursor: pointer;
+  /*border-radius: 50px;*/
+  -webkit-transition: background-color 0.2s, color 0.2s;
+/*  i {
+    -webkit-transition: color 0.2s; 
+  }*/
+  &:hover{
+    background-color: @grayLighter;
+    -webkit-transition: background-color 0.2s;
+   /* i {
+      color: white;
+      -webkit-transition: color 0.2s;
+    }*/
+  }
 }
+
 .fileInput {
   cursor: pointer;
   height: 100%;
@@ -169,7 +194,22 @@ hr {
   top: -27px;
   z-index: 3;
 }
-
+.settings{
+  position: absolute;
+  top: 60px;
+  z-index: 99999;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: @primary;
+}
+.closeRight{
+  padding-right: 7px;
+  line-height: 30px !important;
+}
+.hidden{
+  opacity: 0;
+}
 
 
 /*ANIMATIONS*/
@@ -186,6 +226,17 @@ hr {
 .fadeDown.ng-hide-remove {
   -webkit-transition: 0.1s linear all;
 }
+/*Opacity In*/
+.fadeIn {
+  opacity: 1;
+}
+.fadeIn.ng-hide{
+  opacity: 0;
+}
+.fadeIn.ng-hide-add,
+.fadeIn.ng-hide-remove {
+  -webkit-transition: 0.1s linear all;  
+}
 
 /*SlideRight-PullOut*/
 .slideRight{
@@ -201,4 +252,19 @@ hr {
 }
 .sideBarContainer {
   -webkit-transition: 0.1s linear all;
+}
+.tooltip {
+  position: absolute;
+  color: #fff;
+  background: #000;
+  border-radius: 3px;
+  padding: 10px 20px;
+  display: inline-block;
+}
+.tooltip.ng-enter {
+  opacity: 0;
+  transition: opacity 1s;
+}
+.tooltip.ng-enter-active {
+  opacity: 1;
 }

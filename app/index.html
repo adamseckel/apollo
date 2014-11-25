@@ -9,14 +9,17 @@
     <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/jquery/dist/jquery.js"></script>
     <script src="./bower_components/angular-animate/angular-animate.js"></script>
+    <script src="./bower_components/angular-foundation/mm-foundation-tpls.js"></script>
     <script src="./bower_components/angular-foundation/mm-foundation.js"></script>
+    <script src="./assets/js/resizer.js"></script>
+    <script src="./assets/js/database.js"></script>
     <script src="./assets/js/app.js"></script>
   </head>
   <body ng-app="apollo">
     <div ng-controller="menuCtrl" class="top">
       <div class="topbar"> 
         <div class="small-4 large-4 columns left"> 
-          <div class="switch">
+          <div ng-class="{hidden: settings}" class="switch">
             <input id="exampleCheckboxSwitch" type="checkbox" ng-click="sideBar = !sideBar"/>
             <label for="exampleCheckboxSwitch"></label>
           </div>
@@ -24,17 +27,21 @@
         <div class="small-4 large-4 columns center"> 
           <h5>APOLLO</h5>
         </div>
-        <div class="small-4 large-4 columns right"> <a href="javascript:void(0)" ng-click="menu = !menu"><i class="pe-7s-menu pe-2x"></i></a></div>
+        <div class="small-4 large-4 columns right"> <a href="javascript:void(0)" ng-click="menu = !menu" ng-hide="settings"><i class="pe-7s-menu pe-2x">         </i></a><a href="javascript:void(0)" ng-click="settings = !settings" ng-show="settings"><i class="pe-7s-close pe-3x closeRight"></i></a></div>
       </div>
       <div class="content">
         <div ng-show="menu" class="menu fadeDown">
           <div class="row center">
             <div class="columns large-4 small-4 inputCtrl">
               <div class="inputWrapper center"><i class="pe-7s-plus pe-2x">
-                  <input id="fileDialog" type="file" accept=".xml" class="fileInput"/></i></div>
+                  <input type="file" accept=".xml" onchange="angular.element(this).scope().importItunes(this);" class="fileInput"/></i></div>
             </div>
-            <div class="columns large-4 small-4"><i class="pe-7s-menu pe-2x">         </i></div>
-            <div class="columns large-4 small-4"><i class="pe-7s-menu pe-2x"></i></div>
+            <div class="columns large-4 small-4">
+              <div class="menuIcon"><a href="javascript:void(0)" ng-click="progressBarOn()"><i class="pe-7s-loop pe-2x"></i></a></div>
+            </div>
+            <div class="columns large-4 small-4">
+              <div href="javascript:void(0)" ng-click="settings = !settings" class="menuIcon center"><a><i class="pe-7s-config pe-2x"></i></a></div>
+            </div>
           </div>
         </div>
         <div ng-show="sideBar" class="sideBar slideRight">
@@ -47,16 +54,22 @@
                 <h3>Artist</h3>
               </div>
               <div class="emblem center">
-                <div class="add center">
-                  <h1>+</h1>
-                </div>
+                <div class="add center"></div>
               </div>
             </div>
-            <div class="bottom">
-            </div>
+            <div class="bottom"></div>
           </div>
         </div>
-        <div ng-class="{offset: sideBar, downset: menu}" class="music"></div>
+        <div ng-class="{offset: sideBar, downset: menu}" class="music">
+          <table>
+            <tr ng-repeat="song in songs">
+              <td>{{title}}</td>
+              <td>{{genre}}</td>
+            </tr>
+          </table>
+          <h1 ng-show="progress">WAIT FOR IT!</h1>
+        </div>
+        <div ng-show="settings" class="settings fadeIn"></div>
       </div>
     </div>
     <script>
