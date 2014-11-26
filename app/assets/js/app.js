@@ -2,18 +2,26 @@ var apollo    = angular.module("apollo", ['mm.foundation', 'ngAnimate', 'mc.resi
 var itunes    = require('itunes-library-stream'),
     fs        = require('fs');
 
+var gui = require('nw.gui');
+var win = gui.Window.get(); 
+
 // db.loadDatabase()
 
 
 
 apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout){
-  $scope.menu = true;
+  $scope.menu = false;
   $scope.sideBar = false;
   $scope.settings = false;
   $scope.waiting = false;
   $scope.load = true;
   $scope.populated = false;
   var vm = $scope;
+  $scope.selectedSong = ""
+
+  $scope.maximize = function(){
+    win.maximize();
+  }
 
   $scope.showLibrary = function(){
     $scope.populated = true;
@@ -29,14 +37,6 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
       $scope.showLibrary();
     });
   }
-
-  // $scope.findLibrary = function(){
-  //   db.find({}, function (err, docs) {
-  //     vm.library = docs
-  //     debugger;
-  //   })
-    
-  // }
 
   $scope.waitingOff= function() {
     $timeout(function() {$scope.waiting = false}, 1200);
@@ -68,8 +68,19 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
       })
   }
 
+  $scope.getSong = function (song){
+    // console.log("CLIECKASD");
+    $scope.selectedSong = song;
+    console.log(song)
+    $scope.sideBar = true;
+  }
+
   // Initialization
   $scope.populate();
+}])
+
+apollo.controller('focusCtrl', ['$scope', function($scope){
+
 }])
 
 

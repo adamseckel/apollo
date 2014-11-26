@@ -4,6 +4,7 @@ html(lang='en')
     link(href="./bower_components/foundation-5/css/foundation.css", rel="stylesheet")
     link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css", rel="stylesheet")
     link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css", rel="stylesheet")
+    link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-filled.css", rel="stylesheet")
     link(href="./assets/css/app.css", rel="stylesheet")
     script(src="./bower_components/angular/angular.js")
     script(src="./bower_components/jquery/dist/jquery.js")
@@ -13,16 +14,31 @@ html(lang='en')
     script(src="./assets/js/resizer.js")
     script(src="./assets/js/database.js")
     script(src="./assets/js/app.js")
-
+    script.
+      win.on('close', function() {
+        this.hide(); // Pretend to be closed already
+        console.log("We're closing...");
+        this.close(true);
+      });
 
 
   body(ng-app="apollo")
     .top(ng-controller="menuCtrl")
       .topbar  
-        .small-4.large-4.columns.left 
-          .switch(ng-class="{hidden: settings}")
-            input#exampleCheckboxSwitch(type="checkbox" ng-click="sideBar = !sideBar")
-            label(for="exampleCheckboxSwitch")
+        .small-4.large-4.columns
+          span.left.frame
+            a(href="javascript:void(0)" onclick="win.close();")
+              i.pe-7s-close.pe-3x
+          span.left.frame
+            a(href="javascript:void(0)" onclick="win.minimize();")
+              i.pe-7s-close.pe-3x
+          span.left.frame
+            a(href="javascript:void(0)" onclick="win.maximize();")
+              i.pe-7s-close.pe-3x
+          //- .switch(ng-class="{hidden: settings}")
+          //-   input#exampleCheckboxSwitch(type="checkbox" ng-click="sideBar = !sideBar")
+          //-   label(for="exampleCheckboxSwitch")
+          
         .small-4.large-4.columns.center 
           h5 APOLLO
         .small-4.large-4.columns.right 
@@ -46,26 +62,32 @@ html(lang='en')
               .menuIcon.center(href="javascript:void(0)" ng-click="settings = !settings")
                 a
                   i.pe-7s-config.pe-2x
-        .sideBar(ng-show="sideBar").slideRight
-          .sideBarContainer(ng-class="{downset: menu}")
+        .sideBar(ng-show="sideBar").slideUp
+          .bottomBarShow.center(ng-click="sideBar = !sideBar")
+            i.pe-7s-more.pe-3x
+          .sideBarContainer(ng-controller="focusCtrl")
             .top
-              .art
-                img.albumArt(src="./assets/images/noArt.png")
+              //- .art
+              //-   img.albumArt(src="./assets/images/noArt.png")
               .info
-                h2 Track
-                h3 Album
-                h3 Artist
-              .emblem.center
-                .add.center
+                h2 {{selectedSong.Name}}
+                h3 {{selectedSong.Artist}}  
+                h3 {{selectedSong.Album}}
+              //- .emblem.center
+              //-   .add.center
                   
-            .bottom
+            //- .bottom
 
         .music()
           table
-            tr(ng-if="populated" ng-repeat="song in library")
-              td {{song.Name}}
+            tr(ng-if="populated" ng-repeat="song in library" )
+              td(ng-click="getSong(song)") {{song.Name}}
               td {{song.Artist}}              
               td {{song.Album}}
+              td {{song.Album}}
+              td {{song.Genre}}
+        .bottomBar(ng-hide="sideBar" ng-click="sideBar = !sideBar").slideUp.center
+          i.pe-7s-more.pe-3x
         .settings(ng-show="settings").fadeIn
         .waiting(ng-show="waiting").fadeIn.center
           #loading
@@ -78,8 +100,9 @@ html(lang='en')
           #loading
             -for(n=0; n<3; n++)
               span
-        .blur.fadeIn(ng-show="sideBar" ng-class="{downset: menu, offset: sideBar}" ng-click="sideBar = !sideBar")
-          .faded
+        //- .blur.fadeIn(ng-show="sideBar" ng-class="{downset: menu, offset: sideBar}" ng-click="sideBar = !sideBar")
+        //-   .faded
+
           
 
 

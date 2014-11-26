@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "main": "index.html",
   "window": {
-    "toolbar": true,
-    "frame": true
+    "toolbar": false,
+    "frame": false
   },
   "dependencies": {
     "itunes-data": "^0.1.1",

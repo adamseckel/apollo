@@ -29,6 +29,17 @@ h6 {
 .row {
   max-width: none;
 }
+.frame {
+  padding-right: 5px;
+  padding-top: 16px;
+  font-family: raleway-thin;
+}
+.frame i {
+  line-height: 0;
+}
+.frame span a {
+  color: white;
+}
 .topbar {
   background-color: #e74c3c;
   cursor: default;
@@ -85,13 +96,53 @@ h6 {
   padding-left: 0px;
 }
 .sideBar {
-  border-right: 1px solid #eeeeee;
+  border-top: 1px solid #eeeeee;
   background-color: white;
   position: absolute;
-  bottom: 0px;
-  top: 60px;
-  width: 300px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 200px;
   z-index: 8;
+}
+.bottomBar {
+  height: 30px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 8;
+  padding: 0;
+  background-color: #e74c3c;
+  border-top: 1px solid #eeeeee;
+  cursor: pointer;
+}
+.bottomBar i {
+  color: white;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 15px;
+  line-height: 0;
+}
+.bottomBarShow {
+  height: 30px;
+  /*position: fixed;*/
+  /*bottom: 0;*/
+  position: relative;
+  cursor: pointer;
+  right: 0;
+  left: 0;
+  z-index: 8;
+  padding: 0;
+  background-color: #e74c3c;
+  border-top: 1px solid #eeeeee;
+}
+.bottomBarShow i {
+  color: white;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 15px;
+  line-height: 0;
 }
 .music {
   position: absolute;
@@ -168,12 +219,12 @@ h6 {
   padding-left: 14%;
 }
 .albumArt {
-  width: 300px;
+  height: 150px;
   padding: 10px;
 }
 .info {
   padding: 10px;
-  padding-top: 0px;
+  /*padding-top: px;*/
 }
 .info h2,
 .info h3 {
@@ -299,6 +350,17 @@ hr {
 }
 .slideRight.ng-hide-add,
 .slideRight.ng-hide-remove {
+  -webkit-transition: 0.1s linear all;
+}
+.slideUp {
+  bottom: 0px;
+  overflow: hidden;
+}
+.slideUp.ng-hide {
+  bottom: -200px;
+}
+.slideUp.ng-hide-add,
+.slideUp.ng-hide-remove {
   -webkit-transition: 0.1s linear all;
 }
 .sideBarContainer {
