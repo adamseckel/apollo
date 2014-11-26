@@ -1,56 +1,78 @@
 var apollo    = angular.module("apollo", ['mm.foundation', 'ngAnimate', 'mc.resizer'])
 var itunes    = require('itunes-library-stream'),
     fs        = require('fs');
-    // path      = require('path'),
-    // Datastore = require('nedb');
-// var collection = db.collection("library");
-// db.loadDatabase();    
 
-apollo.controller('menuCtrl', ['$scope', function ($scope){
+// db.loadDatabase()
+
+
+
+apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout){
   $scope.menu = true;
   $scope.sideBar = false;
   $scope.settings = false;
-  $scope.progress = false;
+  $scope.waiting = false;
+  $scope.load = true;
+  $scope.populated = false;
   var vm = $scope;
 
-  $scope.progressBarOn = function(){
-    vm.progress = true
-  }
-  $scope.progressBarOff = function(){
-    vm.progress = false
+  $scope.showLibrary = function(){
+    $scope.populated = true;
   }
 
-
-
-  $scope.importItunes = function(element){
-    // $scope.progressBarOn();
-    $scope.fileNameChanged(element);
-    // $scope.progressBarOff();
-
-  }
-
-  $scope.fileNameChanged = function(element) { 
-    vm.progressBarOn();
-    var iTunesDir = (element.files[0].path); 
-    collection.insert({library: iTunesDir}, function (err, file) {
-      // console.log(file)
+  $scope.populate = function(){
+    db.find({}, function (err, docs) {
+      vm.library = docs; 
+      if($scope.load == true){
+        $timeout(function() { $scope.load = false }, 1200);  
+      }
+      $scope.waitingOff();
+      $scope.showLibrary();
     });
-
-    var stream = fs.createReadStream(iTunesDir)
-    .pipe(itunes.createTrackStream())
-    .on('data', function(data) {
-      collection.insert([data], function (err, file) {
-        // console.log(file)
-      });
-    })
-    stream.on("end", function(err, resp){
-      alert("Done!")
-    })
-    // vm.progressBarOff();
   }
 
+  // $scope.findLibrary = function(){
+  //   db.find({}, function (err, docs) {
+  //     vm.library = docs
+  //     debugger;
+  //   })
+    
+  // }
+
+  $scope.waitingOff= function() {
+    $timeout(function() {$scope.waiting = false}, 1200);
+  }
+
+
+  $scope.importItunes = function(element) {
+    var iTunesDir = (element.files[0].path); 
+    $scope.$apply(function() {
+      $scope.fileNameChanged(iTunesDir);
+    })
+  }
+
+  $scope.fileNameChanged = function(iTunesDir) { 
+    $scope.populated = false;
+    $scope.waiting = true;
+    db.insert({library: iTunesDir}, function (err, file) {});
+    
+    var iTunes = []
+    var stream = fs.createReadStream(iTunesDir)
+      .pipe(itunes.createTrackStream())
+      .on('data', function(data) {
+        iTunes.push(data)
+      }).on("end", function(err, resp){
+        // console.log('stream.end')
+        db.insert(iTunes, function() {
+          $scope.$apply($scope.populate);
+        });
+      })
+  }
+
+  // Initialization
+  $scope.populate();
 }])
 
-// var library = collection.find()
+
+
 
 

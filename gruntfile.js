@@ -5,7 +5,7 @@ module.exports = function(grunt) {
       options: {
         build_dir: './dist',
         mac: true,
-        win: false,
+        win: true,
         linux32: false,
         linux64: false
       },

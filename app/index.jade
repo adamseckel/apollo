@@ -39,7 +39,7 @@ html(lang='en')
                   input.fileInput(type="file" accept=".xml" onchange="angular.element(this).scope().importItunes(this);")
             .columns.large-4.small-4
               .menuIcon
-                a(href="javascript:void(0)" ng-click="progressBarOn()")
+                a(href="javascript:void(0)" ng-click="findLibrary()")
                   i.pe-7s-loop.pe-2x
 
             .columns.large-4.small-4
@@ -60,22 +60,37 @@ html(lang='en')
                   
             .bottom
 
-        .music(ng-class="{offset: sideBar, downset: menu}")
+        .music()
           table
-            tr(ng-repeat="song in songs")
-              td {{title}}
-              td {{genre}}
-          h1(ng-show="progress") WAIT FOR IT!
+            tr(ng-if="populated" ng-repeat="song in library")
+              td {{song.Name}}
+              td {{song.Artist}}              
+              td {{song.Album}}
         .settings(ng-show="settings").fadeIn
+        .waiting(ng-show="waiting").fadeIn.center
+          #loading
+            -for(n=0; n<3; n++)
+              span
+        .load(ng-show="load").fadeIn.center
+          h1 APOLLO
+          //- a(href="javascript:void(0)" ng-click="load = !load")
+          //-   i.pe-7s-close.pe-3x.closeRight
+          #loading
+            -for(n=0; n<3; n++)
+              span
+        .blur.fadeIn(ng-show="sideBar" ng-class="{downset: menu, offset: sideBar}" ng-click="sideBar = !sideBar")
+          .faded
+          
 
 
 
 
-    script.
-      var gui = require('nw.gui');
-      var mb = new gui.Menu({type:"menubar"});
-      mb.createMacBuiltin("your-app-name");
-      gui.Window.get().menu = mb;
+
+    //- script.
+    //-   var gui = require('nw.gui');
+    //-   var mb = new gui.Menu({type:"menubar"});
+    //-   mb.createMacBuiltin("your-app-name");
+    //-   gui.Window.get().menu = mb;
 
 
 

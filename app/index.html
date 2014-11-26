@@ -37,7 +37,7 @@
                   <input type="file" accept=".xml" onchange="angular.element(this).scope().importItunes(this);" class="fileInput"/></i></div>
             </div>
             <div class="columns large-4 small-4">
-              <div class="menuIcon"><a href="javascript:void(0)" ng-click="progressBarOn()"><i class="pe-7s-loop pe-2x"></i></a></div>
+              <div class="menuIcon"><a href="javascript:void(0)" ng-click="findLibrary()"><i class="pe-7s-loop pe-2x"></i></a></div>
             </div>
             <div class="columns large-4 small-4">
               <div href="javascript:void(0)" ng-click="settings = !settings" class="menuIcon center"><a><i class="pe-7s-config pe-2x"></i></a></div>
@@ -60,23 +60,31 @@
             <div class="bottom"></div>
           </div>
         </div>
-        <div ng-class="{offset: sideBar, downset: menu}" class="music">
+        <div class="music">
           <table>
-            <tr ng-repeat="song in songs">
-              <td>{{title}}</td>
-              <td>{{genre}}</td>
+            <tr ng-if="populated" ng-repeat="song in library">
+              <td>{{song.Name}}</td>
+              <td>{{song.Artist}}              </td>
+              <td>{{song.Album}}</td>
             </tr>
           </table>
-          <h1 ng-show="progress">WAIT FOR IT!</h1>
         </div>
         <div ng-show="settings" class="settings fadeIn"></div>
+        <div ng-show="waiting" class="waiting fadeIn center">
+          <div id="loading"><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div ng-show="load" class="load fadeIn center">
+          <h1>APOLLO</h1>
+          <div id="loading"><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div ng-show="sideBar" ng-class="{downset: menu, offset: sideBar}" ng-click="sideBar = !sideBar" class="blur fadeIn">
+          <div class="faded"></div>
+        </div>
       </div>
     </div>
-    <script>
-      var gui = require('nw.gui');
-      var mb = new gui.Menu({type:"menubar"});
-      mb.createMacBuiltin("your-app-name");
-      gui.Window.get().menu = mb;
-    </script>
+    
+    
   </body>
 </html>
