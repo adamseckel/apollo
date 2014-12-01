@@ -4,13 +4,16 @@ html(lang='en')
     link(href="./bower_components/foundation-5/css/foundation.css", rel="stylesheet")
     link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css", rel="stylesheet")
     link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css", rel="stylesheet")
-    link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-filled.css", rel="stylesheet")
+    //- link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-filled.css", rel="stylesheet")
     link(href="./assets/css/app.css", rel="stylesheet")
     script(src="./bower_components/angular/angular.js")
     script(src="./bower_components/jquery/dist/jquery.js")
     script(src="./bower_components/angular-animate/angular-animate.js")
     script(src="./bower_components/angular-foundation/mm-foundation-tpls.js")
     script(src="./bower_components/angular-foundation/mm-foundation.js")
+    script(src="./bower_components/store.js-master/store.min.js")
+    script(src="./node_modules/underscore/underscore-min.js")
+    //- script(src="./assets/js/blur.js")
     script(src="./assets/js/resizer.js")
     script(src="./assets/js/database.js")
     script(src="./assets/js/app.js")
@@ -62,37 +65,57 @@ html(lang='en')
               .menuIcon.center(href="javascript:void(0)" ng-click="settings = !settings")
                 a
                   i.pe-7s-config.pe-2x
-        .sideBar(ng-show="sideBar").slideUp
-          .bottomBarShow.center(ng-click="sideBar = !sideBar")
-            i.pe-7s-more.pe-3x
-          .sideBarContainer(ng-controller="focusCtrl")
-            .top
-              //- .art
-              //-   img.albumArt(src="./assets/images/noArt.png")
-              .info
-                h2 {{selectedSong.Name}}
-                h3 {{selectedSong.Artist}}  
-                h3 {{selectedSong.Album}}
-              //- .emblem.center
-              //-   .add.center
-                  
-            //- .bottom
+        .music
+          table(ng-class="{blurOut: focus}")
+            thead
+              tr
+                th Title
+                th Artist
+                th Album
+                th Year              
+                th Genre              
+                th Play Count
+            tbody(ng-if="populated")
+              tr(ng-repeat="song in library" ng-click="getSong(song)")
+                td {{song.Name}}
+                td {{song.Artist}}              
+                td {{song.Album}}
+                td {{song.Year}}
+                td {{song.Genre}}
+                td {{song["Play Count"]}}
+        
 
-        .music()
-          table
-            tr(ng-if="populated" ng-repeat="song in library" )
-              td(ng-click="getSong(song)") {{song.Name}}
-              td {{song.Artist}}              
-              td {{song.Album}}
-              td {{song.Album}}
-              td {{song.Genre}}
-        .bottomBar(ng-hide="sideBar" ng-click="sideBar = !sideBar").slideUp.center
-          i.pe-7s-more.pe-3x
         .settings(ng-show="settings").fadeIn
         .waiting(ng-show="waiting").fadeIn.center
           #loading
             -for(n=0; n<3; n++)
               span
+        .focusBlur(ng-show="focus" ng-click="unBlur()").fadeIn
+        .focus(ng-show="focus" ng-click="addSong = ''").fadeIn
+          a.close(href="javascript:void(0)" ng-click="focus = !focus")
+            i.pe-7s-close.pe-3x
+          .info
+            p {{selectedSong.Name}}
+            p {{selectedSong.Artist}}  
+            p {{selectedSong.Album}}
+            p(ng-repeat="child in selectedSongChildren") {{child.Name}}
+
+            //- refactor to directive
+            input(type="text" ng-model="addSong")
+            br
+            br
+            .bubble(ng-if="addSong")
+              p.seeMore(ng-if="addSong && (library | filter:addSong).length > 6") 
+                | See {{ (library | filter:addSong).length - 6}} More Results.
+    
+              .container(ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" ) 
+                p(ng-click="addLink(song);")  {{song.Name}} - {{song.Artist}}
+              p.indent(ng-if="addSong && (library | filter:addSong).length > 6") ...
+              p.indent(ng-if="addSong && (library | filter:addSong).length == 0") No Results
+          .links
+            p(ng-repeat="song in selectedSong.Children") {{song._id}}
+          .bottomBar
+
         .load(ng-show="load").fadeIn.center
           h1 APOLLO
           //- a(href="javascript:void(0)" ng-click="load = !load")
@@ -100,20 +123,10 @@ html(lang='en')
           #loading
             -for(n=0; n<3; n++)
               span
-        //- .blur.fadeIn(ng-show="sideBar" ng-class="{downset: menu, offset: sideBar}" ng-click="sideBar = !sideBar")
-        //-   .faded
 
-          
-
-
-
-
-
-    //- script.
-    //-   var gui = require('nw.gui');
-    //-   var mb = new gui.Menu({type:"menubar"});
-    //-   mb.createMacBuiltin("your-app-name");
-    //-   gui.Window.get().menu = mb;
-
-
-
+    
+    script.
+      var gui = require('nw.gui');
+      var mb = new gui.Menu({type:"menubar"});
+      mb.createMacBuiltin("your-app-name");
+      gui.Window.get().menu = mb;

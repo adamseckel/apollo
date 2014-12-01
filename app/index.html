@@ -5,13 +5,14 @@
     <link href="./bower_components/foundation-5/css/foundation.css" rel="stylesheet"/>
     <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css" rel="stylesheet"/>
     <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet"/>
-    <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-filled.css" rel="stylesheet"/>
     <link href="./assets/css/app.css" rel="stylesheet"/>
     <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/jquery/dist/jquery.js"></script>
     <script src="./bower_components/angular-animate/angular-animate.js"></script>
     <script src="./bower_components/angular-foundation/mm-foundation-tpls.js"></script>
     <script src="./bower_components/angular-foundation/mm-foundation.js"></script>
+    <script src="./bower_components/store.js-master/store.min.js"></script>
+    <script src="./node_modules/underscore/underscore-min.js"></script>
     <script src="./assets/js/resizer.js"></script>
     <script src="./assets/js/database.js"></script>
     <script src="./assets/js/app.js"></script>
@@ -50,49 +51,71 @@
             </div>
           </div>
         </div>
-        <div ng-show="sideBar" class="sideBar slideUp">
-          <div ng-click="sideBar = !sideBar" class="bottomBarShow center"><i class="pe-7s-more pe-3x"></i></div>
-          <div ng-controller="focusCtrl" class="sideBarContainer">
-            <div class="top">
-              <div class="info">
-                <h2>{{selectedSong.Name}}</h2>
-                <h3>{{selectedSong.Artist}}  </h3>
-                <h3>{{selectedSong.Album}}</h3>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="music">
-          <table>
-            <tr ng-if="populated" ng-repeat="song in library">
-              <td ng-click="getSong(song)">{{song.Name}}</td>
-              <td>{{song.Artist}}              </td>
-              <td>{{song.Album}}</td>
-              <td>{{song.Album}}</td>
-              <td>{{song.Genre}}</td>
-            </tr>
+          <table ng-class="{blurOut: focus}">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>Year              </th>
+                <th>Genre              </th>
+                <th>Play Count</th>
+              </tr>
+            </thead>
+            <tbody ng-if="populated">
+              <tr ng-repeat="song in library" ng-click="getSong(song)">
+                <td>{{song.Name}}</td>
+                <td>{{song.Artist}}              </td>
+                <td>{{song.Album}}</td>
+                <td>{{song.Year}}</td>
+                <td>{{song.Genre}}</td>
+                <td>{{song["Play Count"]}}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
-        <div ng-hide="sideBar" ng-click="sideBar = !sideBar" class="bottomBar slideUp center"><i class="pe-7s-more pe-3x"></i></div>
         <div ng-show="settings" class="settings fadeIn"></div>
         <div ng-show="waiting" class="waiting fadeIn center">
           <div id="loading"><span></span><span></span><span></span>
           </div>
+        </div>
+        <div ng-show="focus" ng-click="unBlur()" class="focusBlur fadeIn"></div>
+        <div ng-show="focus" ng-click="addSong = ''" class="focus fadeIn"><a href="javascript:void(0)" ng-click="focus = !focus" class="close"><i class="pe-7s-close pe-3x"></i></a>
+          <div class="info">
+            <p>{{selectedSong.Name}}</p>
+            <p>{{selectedSong.Artist}}  </p>
+            <p>{{selectedSong.Album}}</p>
+            <input type="text" ng-model="addSong"/><br/><br/>
+            <div ng-if="addSong" class="bubble">
+              <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="seeMore">
+                 
+                See {{ (library | filter:addSong).length - 6}} More Results.
+              </p>
+              <div ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" class="container"> 
+                <p ng-click="addLink(song);"> {{song.Name}} - {{song.Artist}}</p>
+              </div>
+              <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="indent">...</p>
+              <p ng-if="addSong &amp;&amp; (library | filter:addSong).length == 0" class="indent">No Results</p>
+            </div>
+          </div>
+          <div class="links">
+            <p ng-repeat="song in selectedSong.Children">{{song._id}}</p>
+          </div>
+          <div class="bottomBar"></div>
         </div>
         <div ng-show="load" class="load fadeIn center">
           <h1>APOLLO</h1>
           <div id="loading"><span></span><span></span><span></span>
           </div>
         </div>
-        
-        
-        
-        
-        
-        
       </div>
     </div>
-    
-    
+    <script>
+      var gui = require('nw.gui');
+      var mb = new gui.Menu({type:"menubar"});
+      mb.createMacBuiltin("your-app-name");
+      gui.Window.get().menu = mb;
+    </script>
   </body>
 </html>

@@ -6,6 +6,9 @@
   font-family: raleway-regular;
   src: url(../fonts/raleway-regular.ttf);
 }
+hr {
+  border-color: #383838;
+}
 h1,
 h2,
 h3,
@@ -38,7 +41,7 @@ h6 {
   line-height: 0;
 }
 .frame span a {
-  color: white;
+  color: #ffffff;
 }
 .topbar {
   background-color: #e74c3c;
@@ -50,6 +53,7 @@ h6 {
   padding-top: 14px;
   padding-right: 5px;
   padding-left: 5px;
+  -webkit-box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.2);
 }
 .topbar h1,
 .topbar h2,
@@ -58,7 +62,7 @@ h6 {
 .topbar h5,
 .topbar h6,
 .topbar i {
-  color: white;
+  color: #ffffff;
   cursor: default;
 }
 .topbar i {
@@ -75,20 +79,73 @@ h6 {
 .topbar .logo {
   width: 100px;
 }
+body {
+  background-color: #ffffff;
+}
 .content {
   -webkit-app-region: no-drag;
+}
+.focus {
+  position: absolute;
+  top: 20%;
+  right: 15%;
+  left: 15%;
+  bottom: 15%;
+  z-index: 666;
+  -webkit-box-shadow: 0px 0px 24px 1px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  /*height: 200px;*/
+}
+.focus i {
+  color: #000000;
+}
+.focus a.close {
+  float: right;
+  margin-right: 15px;
+}
+.focus .bottomBar {
+  height: 40px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #dedede;
+  line-height: 15px;
+}
+.focus .bottomBar a {
+  font-size: 12px;
+  margin-top: -15px;
+}
+.focus .bottomBar a i,
+.focus .bottomBar a i:before {
+  font-size: 25px;
+  line-height: 0;
+  margin-top: 20px;
+}
+.focusBlur {
+  position: absolute;
+  top: 60px;
+  bottom: -10px;
+  right: -10px;
+  left: -10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 555;
+}
+.blurOut {
+  -webkit-filter: blur(2px);
+  /*-webkit-transition: -webkit-filter .50s;*/
 }
 .menu {
   border-bottom: 1px #eeeeee solid;
   position: relative;
-  background-color: white;
+  background-color: #ffffff;
   height: 50px;
   width: 100%;
   /*padding-top: 5px;*/
   z-index: 9;
 }
 .menu a {
-  color: black;
+  color: #000000;
 }
 .menu .column,
 .menu .columns {
@@ -97,7 +154,7 @@ h6 {
 }
 .sideBar {
   border-top: 1px solid #eeeeee;
-  background-color: white;
+  background-color: #dedede;
   position: absolute;
   left: 0;
   right: 0;
@@ -105,49 +162,16 @@ h6 {
   height: 200px;
   z-index: 8;
 }
-.bottomBar {
-  height: 30px;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 8;
-  padding: 0;
-  background-color: #e74c3c;
-  border-top: 1px solid #eeeeee;
-  cursor: pointer;
-}
-.bottomBar i {
-  color: white;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 15px;
-  line-height: 0;
-}
-.bottomBarShow {
-  height: 30px;
-  /*position: fixed;*/
-  /*bottom: 0;*/
-  position: relative;
-  cursor: pointer;
-  right: 0;
-  left: 0;
-  z-index: 8;
-  padding: 0;
-  background-color: #e74c3c;
-  border-top: 1px solid #eeeeee;
-}
-.bottomBarShow i {
-  color: white;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 15px;
-  line-height: 0;
+.info p {
+  line-height: 14px;
+  font-size: 14px;
+  margin-bottom: 3px;
 }
 .music {
   position: absolute;
+  background-color: #ffffff;
   overflow: scroll;
-  background-color: white;
+  /*background-color: @white;*/
   bottom: 0;
   left: 0;
   right: 0;
@@ -157,11 +181,61 @@ h6 {
   -webkit-app-region: no-drag;
 }
 .music table {
-  border: 1px solid white;
+  border: 1px solid #ffffff;
+}
+.music table td {
+  padding: 1px;
+  /*      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;*/
 }
 .downset {
   margin-top: 50px;
   -webkit-transition: 0.1s linear all;
+}
+.bubble {
+  width: 50%;
+  background-color: #ffffff;
+  padding: 10px 5px 10px 5px;
+  position: relative;
+  background: #ffffff;
+  /*-webkit-border-radius: 5px;*/
+  -webkit-box-shadow: 0px 0px 10px 1px #616161;
+}
+.bubble .seeMore {
+  margin-bottom: 10px;
+  text-align: right;
+  text-decoration: underline;
+}
+.bubble .container {
+  padding: 4px 5px 1px 5px;
+}
+.bubble .container p {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.bubble .container:hover {
+  background-color: #e74c3c;
+  color: #ffffff;
+  /*line-height: 15px;*/
+  /*border-radius: 5px;*/
+}
+.bubble .indent {
+  padding: 1px 5px 0px 5px;
+}
+.bubble:after {
+  z-index: 999;
+  content: " ";
+  display: block;
+  height: 20px;
+  position: absolute;
+  left: 80px;
+  top: -10px;
+  width: 20px;
+  background: #ffffff;
+  -webkit-transform: rotate(45deg);
+  -webkit-box-shadow: -5px -5px 6px rgba(0, 0, 0, 0.3);
 }
 .offset {
   margin-left: 300px;
@@ -189,20 +263,12 @@ h6 {
   padding-top: 7px;
   position: relative;
   cursor: pointer;
-  /*border-radius: 50px;*/
   -webkit-transition: background-color 0.2s, color 0.2s;
-  /*  i {
-    -webkit-transition: color 0.2s; 
-  }*/
 }
 .menuIcon:hover,
 .inputWrapper:hover {
   background-color: #dedede;
   -webkit-transition: background-color 0.2s;
-  /* i {
-      color: white;
-      -webkit-transition: color 0.2s;
-    }*/
 }
 .fileInput {
   cursor: pointer;
@@ -224,7 +290,6 @@ h6 {
 }
 .info {
   padding: 10px;
-  /*padding-top: px;*/
 }
 .info h2,
 .info h3 {
@@ -253,7 +318,7 @@ hr {
   z-index: 4;
 }
 .add h1 {
-  color: white;
+  color: #ffffff;
   padding: 0px;
   margin: 0px;
   line-height: 31px;
@@ -301,7 +366,7 @@ hr {
 }
 .load h1 {
   font-size: 70px;
-  color: white;
+  color: #ffffff;
 }
 .closeRight {
   padding-right: 7px;
@@ -334,7 +399,7 @@ hr {
 }
 .fadeIn.ng-hide-add,
 .fadeIn.ng-hide-remove {
-  -webkit-transition: 0.1s linear all;
+  -webkit-transition: 0.15s linear all;
 }
 .fadeInLonger.ng-hide-add,
 .fadeInLonger.ng-hide-remove {
@@ -367,7 +432,7 @@ hr {
   -webkit-transition: 0.1s linear all;
 }
 .tooltip {
-  position: absolute;
+  position: relative;
   color: #fff;
   background: #000;
   border-radius: 3px;
@@ -381,11 +446,6 @@ hr {
 .tooltip.ng-enter-active {
   opacity: 1;
 }
-/**
-  Developed and tested on Chrome
-  twitter@codeams,
-  http://codeams.tk
-*/
 #loading {
   position: absolute;
   top: 50%;

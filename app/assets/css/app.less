@@ -4,6 +4,10 @@
 @grayDark: #645858;
 @grayLight: #C3BABA;
 @grayLighter: #DEDEDE;
+@grayDarkest: #2f2727;
+@grayFlat: #1f1f1f;
+@white: #fff;
+@black: #000000;
 
 @font-face {
   font-family: raleway-thin;
@@ -12,6 +16,9 @@
 @font-face {
   font-family: raleway-regular;
   src: url(../fonts/raleway-regular.ttf);
+}
+hr {
+  border-color: #383838;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -40,7 +47,7 @@ h1,h2,h3,h4,h5,h6 {
     line-height: 0;
   }
   span a{
-    color: white;
+    color: @white;
   }
   font-family: raleway-thin;
 }
@@ -54,8 +61,9 @@ h1,h2,h3,h4,h5,h6 {
   padding-top: 14px;
   padding-right: 5px;
   padding-left: 5px;
+  -webkit-box-shadow: 0px 0px 9px 2px rgba(0,0,0,0.2);
   h1,h2,h3,h4,h5,h6,i{
-    color: white;
+    color: @white;
     cursor: default;
   }
   i{
@@ -73,19 +81,74 @@ h1,h2,h3,h4,h5,h6 {
     width: 100px;
   }
 }
+body {
+  background-color: @white;
+
+}
 .content{
   -webkit-app-region: no-drag;
+}
+.focus{
+  position: absolute;
+  top: 20%;
+  right: 15%;
+  left: 15%;
+  bottom: 15%;
+  z-index: 666;
+  -webkit-box-shadow: 0px 0px 24px 1px rgba(0,0,0,0.2);
+  background-color: @white;
+  /*height: 200px;*/
+  i{
+    color: @black;
+  }
+  a.close {
+    float: right;
+    margin-right:15px;
+  }
+  .bottomBar{
+    height: 40px;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: @grayLighter;
+    line-height: 15px;
+    a {
+      font-size: 12px;
+      margin-top: -15px;
+      i, i:before {
+        font-size: 25px;
+        line-height: 0;
+        margin-top: 20px;
+      }
+    }
+  }
+}
+
+.focusBlur{
+  position: absolute;
+  top: 60px;
+  bottom: -10px;
+  right: -10px;
+  left: -10px;
+  background-color: rgba(255,255,255,0.5);
+
+  z-index: 555;
+}
+.blurOut {
+  -webkit-filter: blur(2px);
+  /*-webkit-transition: -webkit-filter .50s;*/
 }
 .menu{
   border-bottom: 1px #eeeeee solid;
   position: relative;
-  background-color: white;
+  background-color: @white;
   height:50px;
   width: 100%;
   /*padding-top: 5px;*/
   z-index: 9;
   a {
-    color: black;
+    color: @black;
   }
   .column, .columns{
     padding-right: 0px;
@@ -94,7 +157,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 .sideBar{
   border-top: 1px solid #eeeeee;
-  background-color: white;
+  background-color: @grayLighter;
   position: absolute;
   left: 0;
   right: 0;
@@ -102,63 +165,89 @@ h1,h2,h3,h4,h5,h6 {
   height: 200px;
   z-index: 8;
 }
-.bottomBar{
-  height: 30px;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 8;
-  padding: 0;
-  background-color: @primary;
-  border-top: 1px solid #eeeeee;
-  cursor: pointer;
-  i {
-    color: white;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 15px;
-    line-height: 0;
+
+.info{
+  p {
+    line-height: 14px;
+    font-size: 14px;
+    margin-bottom: 3px;
   }
 }
-.bottomBarShow{
-  height: 30px;
-  /*position: fixed;*/
-  /*bottom: 0;*/
-  position: relative;
-  cursor: pointer;
-  right: 0;
-  left: 0;
-  z-index: 8;
-  padding: 0;
-  background-color: @primary;
-  border-top: 1px solid #eeeeee;
-  i {
-    color: white;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 15px;
-    line-height: 0;
-  }
-}
+
 .music{
   position: absolute;
+  background-color: @white;
   overflow: scroll;
-  background-color: white;
+  /*background-color: @white;*/
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 2;
   top: 60px;
+
   -webkit-transition: 0.1s linear all;
   -webkit-app-region: no-drag;
   table{
-    border: 1px solid white;
+    border: 1px solid @white;
+    td {
+      padding: 1px;
+/*      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;*/
+    }
   }
 }
 .downset{
   margin-top: 50px;
   -webkit-transition: 0.1s linear all;
+}
+.bubble{
+  width: 50%;
+  background-color: @white;
+  padding: 10px 5px 10px 5px;
+  position: relative;
+  background: @white;
+
+  /*-webkit-border-radius: 5px;*/
+  -webkit-box-shadow: 0px 0px 10px 1px #616161;
+  .seeMore {
+    margin-bottom: 10px;
+    text-align: right;
+    text-decoration: underline;
+  }
+  .container {
+
+    padding: 4px 5px 1px 5px;
+    
+    p{
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    &:hover{
+      background-color: @primary;
+      color: @white;
+      /*line-height: 15px;*/
+      /*border-radius: 5px;*/
+    }
+  }
+  .indent {
+    padding: 1px 5px 0px 5px;
+  }
+  &:after {
+    z-index: 999;
+    content: " ";
+    display:block;
+    height:20px;
+    position: absolute;
+    left:80px;
+    top:-10px;
+    width:20px;
+    background: rgb(255,255,255);
+    -webkit-transform: rotate(45deg);
+
+    -webkit-box-shadow: -5px -5px 6px rgba(0,0,0,0.3);
+  }
 }
 
 .offset{
@@ -175,7 +264,8 @@ h1,h2,h3,h4,h5,h6 {
 }
 .faded{
   background-color: rgba(0,0,0,0.5);
-  -webkit-box-shadow: inset 10px 10px 22px -13px rgba(0,0,0,0.42);  height: 100%;
+  -webkit-box-shadow: inset 10px 10px 22px -13px rgba(0,0,0,0.42);  
+  height: 100%;
 }
 
 .menuIcon, .inputWrapper{
@@ -187,18 +277,10 @@ h1,h2,h3,h4,h5,h6 {
   padding-top: 7px;
   position: relative;
   cursor: pointer;
-  /*border-radius: 50px;*/
   -webkit-transition: background-color 0.2s, color 0.2s;
-/*  i {
-    -webkit-transition: color 0.2s; 
-  }*/
   &:hover{
     background-color: @grayLighter;
     -webkit-transition: background-color 0.2s;
-   /* i {
-      color: white;
-      -webkit-transition: color 0.2s;
-    }*/
   }
 }
 
@@ -223,7 +305,6 @@ h1,h2,h3,h4,h5,h6 {
 }
 .info {
   padding: 10px;
-  /*padding-top: px;*/
   h2, h3 {
     font-family: raleway-regular;
     line-height: 10px;
@@ -251,7 +332,7 @@ hr {
   top: -10px;
   z-index: 4;
   h1 {
-    color: white;
+    color: @white;
     padding: 0px;
     margin: 0px;
     line-height: 31px;
@@ -300,7 +381,7 @@ hr {
   /*margin-bottom: auto;*/
   h1 {
     font-size: 70px;
-    color: white;
+    color: @white;
   }
 }
 .closeRight{
@@ -335,7 +416,7 @@ hr {
 }
 .fadeIn.ng-hide-add,
 .fadeIn.ng-hide-remove {
-  -webkit-transition: 0.1s linear all;  
+  -webkit-transition: 0.15s linear all;  
 }
 .fadeInLonger.ng-hide-add,
 .fadeInLonger.ng-hide-remove {
@@ -369,7 +450,7 @@ hr {
   -webkit-transition: 0.1s linear all;
 }
 .tooltip {
-  position: absolute;
+  position: relative;
   color: #fff;
   background: #000;
   border-radius: 3px;
@@ -383,11 +464,6 @@ hr {
 .tooltip.ng-enter-active {
   opacity: 1;
 }
-/**
-  Developed and tested on Chrome
-  twitter@codeams,
-  http://codeams.tk
-*/
 
 #loading {
   position: absolute;
@@ -408,35 +484,35 @@ hr {
 }
 #loading span:first-child {
   -webkit-animation: fball 1350ms infinite linear;
-          animation: fball 1350ms infinite linear;
+  animation: fball 1350ms infinite linear;
 }
 #loading span:nth-child(2) {
   -webkit-animation: sball 1350ms infinite linear;
-          animation: sball 1350ms infinite linear;
+  animation: sball 1350ms infinite linear;
 }
 #loading span:last-child {
   -webkit-animation: tball 1350ms infinite linear;
-          animation: tball 1350ms infinite linear;
+  animation: tball 1350ms infinite linear;
 }
 @-webkit-keyframes fball {
   0% {
     opacity: 0;
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
   13% {
     opacity: 0.9;
     -webkit-transform: scale(1.03);
-            transform: scale(1.03);
+    transform: scale(1.03);
   }
   26% {
     opacity: 1;
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
   }
   33% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   34% {
     opacity: 0.2;
@@ -446,21 +522,21 @@ hr {
   0% {
     opacity: 0;
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
   13% {
     opacity: 0.9;
     -webkit-transform: scale(1.03);
-            transform: scale(1.03);
+    transform: scale(1.03);
   }
   26% {
     opacity: 1;
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
   }
   33% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   34% {
     opacity: 0.2;
@@ -470,26 +546,26 @@ hr {
   32% {
     opacity: 0.2;
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   33% {
     opacity: 0;
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
   46% {
     opacity: 0.9;
     -webkit-transform: scale(1.03);
-            transform: scale(1.03);
+    transform: scale(1.03);
   }
   59% {
     opacity: 1;
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
   }
   66% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   67% {
     opacity: 0.2;
@@ -499,26 +575,26 @@ hr {
   32% {
     opacity: 0.2;
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   33% {
     opacity: 0;
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
   46% {
     opacity: 0.9;
     -webkit-transform: scale(1.03);
-            transform: scale(1.03);
+    transform: scale(1.03);
   }
   59% {
     opacity: 1;
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
   }
   66% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   67% {
     opacity: 0.2;
@@ -528,52 +604,52 @@ hr {
   67% {
     opacity: 0.2;
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   68% {
     opacity: 0;
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
   81% {
     opacity: 0.9;
     -webkit-transform: scale(1.03);
-            transform: scale(1.03);
+    transform: scale(1.03);
   }
   94% {
     opacity: 1;
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
   }
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 @keyframes tball {
   67% {
     opacity: 0.2;
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   68% {
     opacity: 0;
     -webkit-transform: scale(0.5);
-            transform: scale(0.5);
+    transform: scale(0.5);
   }
   81% {
     opacity: 0.9;
     -webkit-transform: scale(1.03);
-            transform: scale(1.03);
+    transform: scale(1.03);
   }
   94% {
     opacity: 1;
     -webkit-transform: scale(0.95);
-            transform: scale(0.95);
+    transform: scale(0.95);
   }
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 
