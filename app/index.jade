@@ -92,29 +92,51 @@ html(lang='en')
               span
         .focusBlur(ng-show="focus" ng-click="unBlur()").fadeIn
         .focus(ng-show="focus" ng-click="addSong = ''").fadeIn
+
           a.close(href="javascript:void(0)" ng-click="focus = !focus")
             i.pe-7s-close.pe-3x
-          .info
-            p {{selectedSong.Name}}
-            p {{selectedSong.Artist}}  
-            p {{selectedSong.Album}}
-            p(ng-repeat="child in selectedSongChildren") {{child.Name}}
+          .row
+            .columns.large-6.small-6
+              .info
+                p {{selectedSong.Name}}
+                p {{selectedSong.Artist}}  
+                p {{selectedSong.Album}}
+                
 
-            //- refactor to directive
-            input(type="text" ng-model="addSong")
-            br
-            br
-            .bubble(ng-if="addSong")
-              p.seeMore(ng-if="addSong && (library | filter:addSong).length > 6") 
-                | See {{ (library | filter:addSong).length - 6}} More Results.
-    
-              .container(ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" ) 
-                p(ng-click="addLink(song);")  {{song.Name}} - {{song.Artist}}
-              p.indent(ng-if="addSong && (library | filter:addSong).length > 6") ...
-              p.indent(ng-if="addSong && (library | filter:addSong).length == 0") No Results
-          .links
-            p(ng-repeat="song in selectedSong.Children") {{song._id}}
+                //- refactor to directive
+                input(type="text" ng-model="addSong")
+
+                br
+                br
+                
+                .bubble(ng-if="addSong")
+                  p.seeMore(ng-if="addSong && (library | filter:addSong).length > 6") 
+                    | See {{ (library | filter:addSong).length - 6}} More Results.
+        
+                  .container(ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" ) 
+                    p(ng-click="addLink(song);")  {{song.Name}} - {{song.Artist}}
+                  p.indent(ng-if="addSong && (library | filter:addSong).length > 6") ...
+                  p.indent(ng-if="addSong && (library | filter:addSong).length == 0") No Results
+              .links
+                p(ng-repeat="song in selectedSong.Children") {{song._id}}
+            .columns.large-6.small-6
+              .info
+                .child(ng-repeat="child in currentSongChildren")
+                  span
+                    a(ng-click="removeChild(child)")
+                      | x 
+                  span 
+                    | - {{child.Name}} - {{child.Artist}}
+                 
+  
+
+            
+          
           .bottomBar
+            span
+              button.button(ng-click="generatePlaylist(selectedSong._id);") Generate
+            span
+              button.button(ng-click="deleteSong();") Delete From Collection
 
         .load(ng-show="load").fadeIn.center
           h1 APOLLO

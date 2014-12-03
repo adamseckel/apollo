@@ -82,27 +82,40 @@
         </div>
         <div ng-show="focus" ng-click="unBlur()" class="focusBlur fadeIn"></div>
         <div ng-show="focus" ng-click="addSong = ''" class="focus fadeIn"><a href="javascript:void(0)" ng-click="focus = !focus" class="close"><i class="pe-7s-close pe-3x"></i></a>
-          <div class="info">
-            <p>{{selectedSong.Name}}</p>
-            <p>{{selectedSong.Artist}}  </p>
-            <p>{{selectedSong.Album}}</p>
-            <input type="text" ng-model="addSong"/><br/><br/>
-            <div ng-if="addSong" class="bubble">
-              <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="seeMore">
-                 
-                See {{ (library | filter:addSong).length - 6}} More Results.
-              </p>
-              <div ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" class="container"> 
-                <p ng-click="addLink(song);"> {{song.Name}} - {{song.Artist}}</p>
+          <div class="row">
+            <div class="columns large-6 small-6">
+              <div class="info">
+                <p>{{selectedSong.Name}}</p>
+                <p>{{selectedSong.Artist}}  </p>
+                <p>{{selectedSong.Album}}</p>
+                <input type="text" ng-model="addSong"/><br/><br/>
+                <div ng-if="addSong" class="bubble">
+                  <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="seeMore">
+                     
+                    See {{ (library | filter:addSong).length - 6}} More Results.
+                  </p>
+                  <div ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" class="container"> 
+                    <p ng-click="addLink(song);"> {{song.Name}} - {{song.Artist}}</p>
+                  </div>
+                  <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="indent">...</p>
+                  <p ng-if="addSong &amp;&amp; (library | filter:addSong).length == 0" class="indent">No Results</p>
+                </div>
               </div>
-              <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="indent">...</p>
-              <p ng-if="addSong &amp;&amp; (library | filter:addSong).length == 0" class="indent">No Results</p>
+              <div class="links">
+                <p ng-repeat="song in selectedSong.Children">{{song._id}}</p>
+              </div>
+            </div>
+            <div class="columns large-6 small-6">
+              <div class="info">
+                <div ng-repeat="child in currentSongChildren" class="child"><span><a ng-click="removeChild(child)">x </a></span><span>
+                     
+                    - {{child.Name}} - {{child.Artist}}</span></div>
+              </div>
             </div>
           </div>
-          <div class="links">
-            <p ng-repeat="song in selectedSong.Children">{{song._id}}</p>
-          </div>
-          <div class="bottomBar"></div>
+          <div class="bottomBar"><span>
+              <button ng-click="generatePlaylist(selectedSong._id);" class="button">Generate</button></span><span>
+              <button ng-click="deleteSong();" class="button">Delete From Collection</button></span></div>
         </div>
         <div ng-show="load" class="load fadeIn center">
           <h1>APOLLO</h1>

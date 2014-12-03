@@ -93,6 +93,7 @@ body {
   top: 20%;
   right: 15%;
   left: 15%;
+  padding-top: 15px;
   bottom: 15%;
   z-index: 666;
   -webkit-box-shadow: 0px 0px 24px 1px rgba(0,0,0,0.2);
@@ -102,8 +103,9 @@ body {
     color: @black;
   }
   a.close {
-    float: right;
-    margin-right:15px;
+    position: absolute;
+    top: 0px;
+    right: 15px;
   }
   .bottomBar{
     height: 40px;
@@ -113,6 +115,12 @@ body {
     bottom: 0;
     background-color: @grayLighter;
     line-height: 15px;
+    .button{
+      padding-top: 11px;
+      padding-right: 2rem;
+      padding-bottom: 11px;
+      padding-left: 2rem;
+    }
     a {
       font-size: 12px;
       margin-top: -15px;
@@ -123,15 +131,27 @@ body {
       }
     }
   }
+  table{
+    width: 100%;
+  }
+  span {
+    width: 100%;
+    
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .info{
+    overflow: hidden;
+  }
 }
 
 .focusBlur{
   position: absolute;
   top: 60px;
-  bottom: -10px;
-  right: -10px;
-  left: -10px;
-  background-color: rgba(255,255,255,0.5);
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  background-color: rgba(0,0,0,0.5);
 
   z-index: 555;
 }
@@ -202,7 +222,7 @@ body {
   -webkit-transition: 0.1s linear all;
 }
 .bubble{
-  width: 50%;
+  width: 100%;
   background-color: @white;
   padding: 10px 5px 10px 5px;
   position: relative;
