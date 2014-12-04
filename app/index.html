@@ -13,7 +13,6 @@
     <script src="./bower_components/angular-foundation/mm-foundation.js"></script>
     <script src="./bower_components/store.js-master/store.min.js"></script>
     <script src="./node_modules/underscore/underscore-min.js"></script>
-    <script src="./assets/js/resizer.js"></script>
     <script src="./assets/js/database.js"></script>
     <script src="./assets/js/app.js"></script>
     <script>
@@ -44,14 +43,14 @@
                   <input type="file" accept=".xml" onchange="angular.element(this).scope().importItunes(this);" class="fileInput"/></i></div>
             </div>
             <div class="columns large-4 small-4">
-              <div class="menuIcon"><a href="javascript:void(0)" ng-click="findLibrary()"><i class="pe-7s-loop pe-2x"></i></a></div>
+              <div class="menuIcon"><a href="javascript:void(0)" ng-click="playlistFocus = !playlistFocus"><i class="pe-7s-loop pe-2x"></i></a></div>
             </div>
             <div class="columns large-4 small-4">
               <div href="javascript:void(0)" ng-click="settings = !settings" class="menuIcon center"><a><i class="pe-7s-config pe-2x"></i></a></div>
             </div>
           </div>
         </div>
-        <div class="music">
+        <div sticky-table-header="sticky-table-header" rows="rowCollection" disabled="expression" class="music">
           <table ng-class="{blurOut: focus}">
             <thead>
               <tr>
@@ -81,13 +80,21 @@
           </div>
         </div>
         <div ng-show="focus" ng-click="unBlur()" class="focusBlur fadeIn"></div>
-        <div ng-show="focus" ng-click="addSong = ''" class="focus fadeIn"><a href="javascript:void(0)" ng-click="focus = !focus" class="close"><i class="pe-7s-close pe-3x"></i></a>
+        <div ng-show="alert" ng-click="alert = !alert" class="alert fadeIn">
+          <div class="message center block">
+            <div class="content centered">   
+              <h4> <i class="pe-7s-link pe-2x pe-va"></i>{{alertMessage}}</h4>
+            </div>
+          </div>
+        </div>
+        <div ng-show="focus" ng-click="addSong = ''" class="focus fadeIn">
+          <div ng-click="focus = !focus" class="close"><i class="pe-7s-close pe-3x pe-va"></i></div>
           <div class="row">
             <div class="columns large-6 small-6">
-              <div class="info">
-                <p>{{selectedSong.Name}}</p>
-                <p>{{selectedSong.Artist}}  </p>
-                <p>{{selectedSong.Album}}</p>
+              <div class="info songID">
+                <h1>{{selectedSong.Name}}</h1>
+                <h3>{{selectedSong.Artist}}  </h3>
+                <h4>{{selectedSong.Album}}</h4>
                 <input type="text" ng-model="addSong"/><br/><br/>
                 <div ng-if="addSong" class="bubble">
                   <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="seeMore">
@@ -113,9 +120,16 @@
               </div>
             </div>
           </div>
-          <div class="bottomBar"><span>
-              <button ng-click="generatePlaylist(selectedSong._id);" class="button">Generate</button></span><span>
-              <button ng-click="deleteSong();" class="button">Delete From Collection</button></span></div>
+          <div class="bottomBar">
+            <div class="row">
+              <div class="columns large-6 small-6">
+                <div ng-click="generatePlaylist(selectedSong._id);" class="bottomButton center"><a> <i class="pe-7s-musiclist pe-va pe-2x"></i>Make Playlist (25)</a></div>
+              </div>
+              <div class="columns large-6 small-6">
+                <div ng-click="delete(selectedSong._id);" class="bottomButton center"><a> <i class="pe-7s-trash pe-va pe-2x"></i>Delete From Apollo</a></div>
+              </div>
+            </div>
+          </div>
         </div>
         <div ng-show="load" class="load fadeIn center">
           <h1>APOLLO</h1>

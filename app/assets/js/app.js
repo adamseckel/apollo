@@ -1,6 +1,8 @@
-var apollo    = angular.module("apollo", ['mm.foundation', 'ngAnimate' ])
+var apollo    = angular.module("apollo", ['mm.foundation', 'ngAnimate'])
 var itunes    = require('itunes-library-stream'),
+    writer    = require('m3u').writer(),
     fs        = require('fs');
+
 
 var gui = require('nw.gui');
 var win = gui.Window.get(); 
@@ -22,7 +24,17 @@ if (!Array.prototype.secondLast){
       return this[this.length - 2];
   };
 };
+// Clone Array
+Array.prototype.clone = function() {
+  return this.slice(0);
+};
+// Shuffle Array
+function shuffle(o){ //v1.0
+  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+};
 
+// Angular
 apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout){
   $scope.menu = false;
   $scope.sideBar = false;
@@ -31,8 +43,13 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
   $scope.load = true;
   $scope.populated = false;
   $scope.focus = false;
-  $scope.currentSongChildren = []
-  $scope.alert = ""
+  $scope.currentSongChildren = [];
+  $scope.alert = false;
+  $scope.alertMessage = null;
+  $scope.playlist = null;
+  var solution = null;
+  var playlist = null;
+
   // $scope.filtered = {};
 
 
@@ -45,6 +62,7 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
   $scope.maximize = function(){
     win.maximize();
   }
+
 
   $scope.showLibrary = function(){
     $scope.populated = true;
@@ -105,9 +123,12 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
       var songChildren = children[0].children; 
       // console.log(songChildren)
       $scope.findChildren(songChildren, function(){
-        $scope.focus = true;
+        
       });
-    })   
+    })
+    $timeout(function() {
+      $scope.focus = true; 
+    ;}, 10);   
   }
 
   $scope.findChildren = function(songChildren, callback){
@@ -146,118 +167,88 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
   $scope.removeChild = function(child){
     var index = $scope.currentSongChildren.indexOf(child)
     $scope.currentSongChildren.splice(index, 1)
-    db.update({ _id: $scope.selectedSong._id }, { $pull: { children: child._id } }, {}, function () {
-    });
+    db.update({ _id: $scope.selectedSong._id }, { $pull: { children: child._id } }, {}, function () {});
   }
 
   $scope.generatePlaylist = function(currentSongID){
-    var output = [];
-    var blacklist = {};
-    output.push(currentSongID);
-
-    var currentSongID = output.last()
-
-    db.find({_id: currentSongID}, { children: 1, _id: 0 }, function(err, children){
-      var ch = children[0].children
-
-      if(ch.length === 0){
-  
-        c("Blacklisted! - No Children")
-        c("This song has no links!")
-        $scope.alert = "This song has no Links"
+    // Nullify old lists
+    solution = null
+    $scope.waiting = true;
+    // Walk selected Song
+    $scope.walk(currentSongID, [], function(){
+      $scope.returnNames(solution)
+    })
+    // Wait for Fail
+    $timeout(function(){
+      if(!solution){
+        $scope.waiting = false;
+        $scope.alert = true;
+        $scope.alertMessage = "THIS SONG DOES NOT HAVE ENOUGH LINKS."
+        $timeout(function(){
+          $scope.alert = false;
+        }, 2000)
       }
-      else{
-        $scope.walkChildren(blacklist, output);
-      }
-    })    
+    },1000);
   }
 
-  $scope.walkChildren = function(blacklist, output, counter){
-    var candidates = []
-    var currentSongID = output.last()
+  $scope.walk = function(node, path, callback){
+    var node_children = null
+    db.find({_id: node}, { children: 1, _id: 0 }, function(err, children){
+      node_children = children[0].children;
+    });
 
-    if(output.length > 1){var parentSong = output.secondLast()}
-
-    db.find({_id: currentSongID}, { children: 1, _id: 0 }, function(err, children){
-      var ch = children[0].children
-      blacklist[parentSong] = blacklist[parentSong] || []
-      // current song has no children (hit only after second )
-      if(ch.length === 0){
-  
-        c("Blacklisted! - No Children")
-        blacklist[parentSong] = blacklist[parentSong] || []
-        blacklist[parentSong].push(currentSongID)
-        c(output)
-        output.pop()
-        c(output)
-        c(blacklist)
-        $scope.walkChildren(blacklist, output, counter);
-
-      }
-      else{
-        for(var i = 0; i < ch.length; i++){
-          candidates.push(ch[i])
-        }
-
-        difference = _.difference(candidates, blacklist[parentSong])
-        c("candidates: ")
-        c(candidates)
-        
-        c("Difference")
-        c(difference)
-    
-        c("Blackilist")
-        c(blacklist[parentSong])
-
-        var candidate = candidates[(Math.floor(Math.random() * ch.length))]
-        // c(blacklist)
-
-        // all children have no viable children
-        if(difference.length === 0){    
-          c("Blacklisted! All Children are Blacklisted")
-          blacklist[parentSong] = blacklist[parentSong] || []
-          blacklist[parentSong].push(currentSongID)
-          c(output)
-          output.pop()
-          c(output)
-
-          $scope.walkChildren(blacklist, output, counter);
-        } 
-        // duplicate
-        else if(output.indexOf(candidate) > -1){
-          c("Blacklisted! - Duplicate")
-          blacklist[parentSong] = blacklist[parentSong] || []
-          blacklist[parentSong].push(currentSongID)
-          // loop
-          $scope.walkChildren(blacklist, output, counter);
-        }
-        else if(blacklist[parentSong].indexOf(candidate) > -1){
-          c("song already blacklisted")
-          // output.pop();
-          $scope.walkChildren(blacklist, output, counter);
-        }
-        // Success
-        else{
-          output.push((candidate));
-          c("success")
-          c(output)
-          if(output.length == 10){
-            c(output);
-            // c(blacklist)
-            return
-          } else {
-            // loop
-            $scope.walkChildren(blacklist, output, counter);
-          }
-          
-        }
+    $timeout(function() {   
+      if (node_children.length == 0) {
+        return false;
       };
- 
+      // Get every possible version?
+      // path = path.clone();
 
-    })   
+      if (path.indexOf(node) > -1){
+        return false
+      };
 
+      path.push(node);
+
+      if (path.length == 25){
+        solution = path;
+        callback();
+        return true;
+      }
+
+      else {
+        shuffled_children = shuffle(node_children);
+        for(var i = 0; i < shuffled_children.length; i++){
+          if($scope.walk(shuffled_children[i], path, callback)){
+            return true;
+          };
+        };
+        return false;
+      };
+    }, 50);    
+  };
+
+  $scope.returnNames = function(solution){
+    var playlist = []
+
+    solution.forEach(function(id){
+      $timeout(function(){
+        db.find({_id: id}, function(err, docs){
+          playlist.push(docs[0].Name)
+          writer.file(docs[0].Location);
+          // after();
+        }) 
+      }, 50);
+    })
+    // This is awful...
+    $timeout(function() {
+      console.log(playlist)
+      fs.writeFile("Apollo - " + playlist[0] + ".m3u", writer.toString(), function(err){
+        if (err) return console.log(err)
+      })
+      $scope.waiting = false;
+    }, 500)
   }
-
 
   // initialize
   $scope.populate();

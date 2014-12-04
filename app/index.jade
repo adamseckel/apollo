@@ -12,9 +12,9 @@ html(lang='en')
     script(src="./bower_components/angular-foundation/mm-foundation-tpls.js")
     script(src="./bower_components/angular-foundation/mm-foundation.js")
     script(src="./bower_components/store.js-master/store.min.js")
+    //- script(src="./bower_components/flowtype.js-master/flowtype.js")
     script(src="./node_modules/underscore/underscore-min.js")
-    //- script(src="./assets/js/blur.js")
-    script(src="./assets/js/resizer.js")
+    //- script(src="./assets/js/resizer.js")
     script(src="./assets/js/database.js")
     script(src="./assets/js/app.js")
     script.
@@ -58,14 +58,14 @@ html(lang='en')
                   input.fileInput(type="file" accept=".xml" onchange="angular.element(this).scope().importItunes(this);")
             .columns.large-4.small-4
               .menuIcon
-                a(href="javascript:void(0)" ng-click="findLibrary()")
+                a(href="javascript:void(0)" ng-click="playlistFocus = !playlistFocus")
                   i.pe-7s-loop.pe-2x
 
             .columns.large-4.small-4
               .menuIcon.center(href="javascript:void(0)" ng-click="settings = !settings")
                 a
                   i.pe-7s-config.pe-2x
-        .music
+        .music(sticky-table-header rows="rowCollection" disabled="expression")
           table(ng-class="{blurOut: focus}")
             thead
               tr
@@ -91,16 +91,24 @@ html(lang='en')
             -for(n=0; n<3; n++)
               span
         .focusBlur(ng-show="focus" ng-click="unBlur()").fadeIn
+        .alert(ng-show="alert" ng-click="alert = !alert").fadeIn
+          .message.center.block
+            .content.centered    
+              h4 
+                i.pe-7s-link.pe-2x.pe-va
+                {{alertMessage}}
+        
         .focus(ng-show="focus" ng-click="addSong = ''").fadeIn
 
-          a.close(href="javascript:void(0)" ng-click="focus = !focus")
-            i.pe-7s-close.pe-3x
+          .close(ng-click="focus = !focus")
+            i.pe-7s-close.pe-3x.pe-va
+
           .row
             .columns.large-6.small-6
-              .info
-                p {{selectedSong.Name}}
-                p {{selectedSong.Artist}}  
-                p {{selectedSong.Album}}
+              .info.songID
+                h1 {{selectedSong.Name}}
+                h3 {{selectedSong.Artist}}  
+                h4 {{selectedSong.Album}}
                 
 
                 //- refactor to directive
@@ -133,10 +141,18 @@ html(lang='en')
             
           
           .bottomBar
-            span
-              button.button(ng-click="generatePlaylist(selectedSong._id);") Generate
-            span
-              button.button(ng-click="deleteSong();") Delete From Collection
+            .row
+              .columns.large-6.small-6
+                .bottomButton.center(ng-click="generatePlaylist(selectedSong._id);")
+                  a 
+                    i.pe-7s-musiclist.pe-va.pe-2x
+                    | Make Playlist (25)
+              .columns.large-6.small-6
+                .bottomButton.center(ng-click="delete(selectedSong._id);")
+                  a 
+                    i.pe-7s-trash.pe-va.pe-2x
+                    | Delete From Apollo
+        
 
         .load(ng-show="load").fadeIn.center
           h1 APOLLO

@@ -9,6 +9,7 @@
   "dependencies": {
     "itunes-data": "^0.1.1",
     "local-json-db": "0.0.6",
-    "nedb": "^0.11.1"
+    "nedb": "^0.11.1",
+    "synchronize": "^0.9.8"
   }
 }

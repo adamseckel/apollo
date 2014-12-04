@@ -53,7 +53,7 @@ h6 {
   padding-top: 14px;
   padding-right: 5px;
   padding-left: 5px;
-  -webkit-box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.2);
+  /*-webkit-box-shadow: 0px 0px 9px 2px rgba(0,0,0,0.2);*/
 }
 .topbar h1,
 .topbar h2,
@@ -90,7 +90,7 @@ body {
   top: 20%;
   right: 15%;
   left: 15%;
-  padding-top: 15px;
+  padding-top: 30px;
   bottom: 15%;
   z-index: 666;
   -webkit-box-shadow: 0px 0px 24px 1px rgba(0, 0, 0, 0.2);
@@ -100,10 +100,31 @@ body {
 .focus i {
   color: #000000;
 }
-.focus a.close {
+.focus .songID h1 {
+  font-size: 30px;
+}
+.focus .songID h3 {
+  font-size: 15px;
+}
+.focus .songID h4 {
+  font-size: 15px;
+}
+.focus .close {
   position: absolute;
-  top: 0px;
-  right: 15px;
+  cursor: pointer;
+  z-index: 556;
+  width: 30px;
+  height: 30px;
+  /*background-color: @primary;*/
+  /*border: 1px solid black;*/
+  padding-left: 5px;
+  top: 5px;
+  right: 5px;
+}
+.focus .close i {
+  line-height: 30px !important;
+  z-index: 558;
+  color: black;
 }
 .focus .bottomBar {
   height: 40px;
@@ -111,24 +132,34 @@ body {
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: #dedede;
+  background-color: #bfbfbf;
   line-height: 15px;
 }
-.focus .bottomBar .button {
-  padding-top: 11px;
-  padding-right: 2rem;
-  padding-bottom: 11px;
-  padding-left: 2rem;
+.focus .bottomBar .columns {
+  padding: 0;
 }
-.focus .bottomBar a {
-  font-size: 12px;
-  margin-top: -15px;
+.focus .bottomBar i {
+  color: white;
+  padding-right: 15px;
 }
-.focus .bottomBar a i,
-.focus .bottomBar a i:before {
-  font-size: 25px;
-  line-height: 0;
-  margin-top: 20px;
+.focus .bottomBar .bottomButton {
+  background-color: transparent;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 4px;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: background-color 0.2s, color 0.2s;
+}
+.focus .bottomBar .bottomButton:hover {
+  background-color: #e74c3c;
+  -webkit-transition: 0.1s linear all;
+}
+.focus .bottomBar .bottomButton a {
+  color: white;
+  font-size: 16px;
 }
 .focus table {
   width: 100%;
@@ -147,12 +178,12 @@ body {
   bottom: 0px;
   right: 0px;
   left: 0px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
   z-index: 555;
 }
 .blurOut {
   -webkit-filter: blur(2px);
-  /*-webkit-transition: -webkit-filter .50s;*/
+  -webkit-transition: -webkit-filter 0.5s;
 }
 .menu {
   border-bottom: 1px #eeeeee solid;
@@ -309,6 +340,7 @@ body {
 }
 .info {
   padding: 10px;
+  padding-top: 0px;
 }
 .info h2,
 .info h3 {
@@ -360,7 +392,7 @@ hr {
 }
 .waiting {
   position: absolute;
-  z-index: 555;
+  z-index: 999;
   top: 0;
   bottom: 0;
   left: 0;
@@ -386,6 +418,32 @@ hr {
 .load h1 {
   font-size: 70px;
   color: #ffffff;
+}
+.alert {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+.alert .message {
+  position: absolute;
+  top: 35%;
+  right: 0;
+  left: 0;
+  height: 125px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding-top: 38px;
+  -webkit-box-shadow: 0px 0px 24px 1px rgba(0, 0, 0, 0.4);
+}
+.alert .message i {
+  margin-right: 15px;
+}
+.alert .message h4 {
+  color: white;
 }
 .closeRight {
   padding-right: 7px;
