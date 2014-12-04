@@ -1,20 +1,20 @@
 
-<html lang="en">
+<html lang="en" ng-app="apollo" ng-controller="menuCtrl">
   <head>
     <link href="./bower_components/foundation-5/css/normalize.css" rel="stylesheet"/>
     <link href="./bower_components/foundation-5/css/foundation.css" rel="stylesheet"/>
     <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css" rel="stylesheet"/>
     <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet"/>
-    <link href="./assets/css/app.css" rel="stylesheet"/>
     <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/jquery/dist/jquery.js"></script>
     <script src="./bower_components/angular-animate/angular-animate.js"></script>
     <script src="./bower_components/angular-foundation/mm-foundation-tpls.js"></script>
     <script src="./bower_components/angular-foundation/mm-foundation.js"></script>
-    <script src="./bower_components/store.js-master/store.min.js"></script>
+    <script src="./bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <script src="./node_modules/underscore/underscore-min.js"></script>
     <script src="./assets/js/database.js"></script>
     <script src="./assets/js/app.js"></script>
+    <link ng-href="./assets/css/{{ theme }}.css" rel="stylesheet"/>
     <script>
       win.on('close', function() {
         this.hide(); // Pretend to be closed already
@@ -25,8 +25,8 @@
       
     </script>
   </head>
-  <body ng-app="apollo">
-    <div ng-controller="menuCtrl" class="top">
+  <body>
+    <div class="top">
       <div class="topbar"> 
         <div class="small-4 large-4 columns"><span class="left frame"><a href="javascript:void(0)" onclick="win.close();"><i class="pe-7s-close pe-3x"></i></a></span><span class="left frame"><a href="javascript:void(0)" onclick="win.minimize();"><i class="pe-7s-close pe-3x"></i></a></span><span class="left frame"><a href="javascript:void(0)" onclick="win.maximize();"><i class="pe-7s-close pe-3x"></i></a></span>
         </div>
@@ -74,7 +74,16 @@
             </tbody>
           </table>
         </div>
-        <div ng-show="settings" class="settings fadeIn"></div>
+        <div ng-show="settings" class="settings fadeIn center">
+          <h4>THEME:</h4>
+          <div class="select-style center">
+            <select ng-model="theme" ng-options="theme as theme for theme in themes"></select>
+          </div><br/><br/>
+          <div ng-show="localVersion &lt; currentVersion" class="update">
+            <h4>Apollo is Out of Date. </h4>
+            <h5>Go to apolloplaylists.herokuapp.com to learn about upgrading.</h5>
+          </div>
+        </div>
         <div ng-show="waiting" class="waiting fadeIn center">
           <div id="loading"><span></span><span></span><span></span>
           </div>
@@ -91,8 +100,8 @@
           <div ng-click="focus = !focus" class="close"><i class="pe-7s-close pe-3x pe-va"></i></div>
           <div class="row">
             <div class="columns large-6 small-6">
-              <div class="info songID">
-                <h1>{{selectedSong.Name}}</h1>
+              <div class="songID">
+                <h1 data-fittext-max="30px">{{selectedSong.Name}}</h1>
                 <h3>{{selectedSong.Artist}}  </h3>
                 <h4>{{selectedSong.Album}}</h4>
                 <input type="text" ng-model="addSong"/><br/><br/>
@@ -114,9 +123,8 @@
             </div>
             <div class="columns large-6 small-6">
               <div class="info">
-                <div ng-repeat="child in currentSongChildren" class="child"><span><a ng-click="removeChild(child)">x </a></span><span>
-                     
-                    - {{child.Name}} - {{child.Artist}}</span></div>
+                <div ng-repeat="child in currentSongChildren" class="child"><span>
+                    <p><i ng-click="removeChild(child)" class="pe-7s-close pe-va pe-2x"></i>{{child.Name}} - {{child.Artist}}</p></span></div>
               </div>
             </div>
           </div>

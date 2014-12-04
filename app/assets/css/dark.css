@@ -44,7 +44,7 @@ h6 {
   color: #ffffff;
 }
 .topbar {
-  background-color: #e74c3c;
+  background-color: #1f1f1f;
   cursor: default;
   -webkit-app-region: drag;
   z-index: 10;
@@ -167,7 +167,7 @@ body {
   -webkit-transition: background-color 0.2s, color 0.2s;
 }
 .focus .bottomBar .bottomButton:hover {
-  background-color: #e74c3c;
+  background-color: #1f1f1f;
   -webkit-transition: 0.1s linear all;
 }
 .focus .bottomBar .bottomButton a {
@@ -279,7 +279,7 @@ body {
   overflow: hidden;
 }
 .bubble .container:hover {
-  background-color: #e74c3c;
+  background-color: #1f1f1f;
   color: #ffffff;
   /*line-height: 15px;*/
   /*border-radius: 5px;*/
@@ -372,7 +372,7 @@ hr {
   padding: 0;
 }
 .add {
-  background-color: #e74c3c;
+  background-color: #1f1f1f;
   border-radius: 50px;
   width: 32px;
   height: 32px;
@@ -401,7 +401,7 @@ hr {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #e74c3c;
+  background-color: #1f1f1f;
   color: #fff;
 }
 .settings h1,
@@ -433,7 +433,7 @@ hr {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #e74c3c;
+  background-color: #1f1f1f;
   padding-top: 20%;
   /*margin-bottom: auto;*/
 }
@@ -483,11 +483,11 @@ hr {
   width: 200px;
   border-radius: 0px;
   overflow: hidden;
-  background-color: #e74c3c;
+  background-color: #1f1f1f;
   color: #fff;
   text-align: center;
   font-family: raleway-thin;
-  background: #e74c3c url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
+  background: #1f1f1f url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
 }
 .select-style select {
   padding: 5px 8px;
@@ -495,7 +495,7 @@ hr {
   width: 180px;
   border: none;
   box-shadow: none;
-  background-color: #e74c3c;
+  background-color: #1f1f1f;
   text-align: center;
   background-image: none;
   -webkit-appearance: none;

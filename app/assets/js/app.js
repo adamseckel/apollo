@@ -1,7 +1,7 @@
 var apollo    = angular.module("apollo", ['mm.foundation', 'ngAnimate'])
 var itunes    = require('itunes-library-stream'),
-    writer    = require('m3u').writer(),
-    fs        = require('fs');
+writer    = require('m3u').writer(),
+fs        = require('fs');
 
 
 var gui = require('nw.gui');
@@ -15,13 +15,13 @@ c = function(x){
 // last method for arrays
 if (!Array.prototype.last){
   Array.prototype.last = function(){
-      return this[this.length - 1];
+    return this[this.length - 1];
   };
 };
 // second last
 if (!Array.prototype.secondLast){
   Array.prototype.secondLast = function(){
-      return this[this.length - 2];
+    return this[this.length - 2];
   };
 };
 // Clone Array
@@ -31,11 +31,11 @@ Array.prototype.clone = function() {
 // Shuffle Array
 function shuffle(o){ //v1.0
   for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-  return o;
+    return o;
 };
 
 // Angular
-apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout){
+apollo.controller('menuCtrl', ['$scope', '$timeout', '$http',function ($scope, $timeout, $http){
   $scope.menu = false;
   $scope.sideBar = false;
   $scope.settings = false;
@@ -49,6 +49,14 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
   $scope.playlist = null;
   var solution = null;
   var playlist = null;
+  $scope.themes = ["Default", "Dark"]
+  $scope.theme = $scope.themes[0];
+  $scope.currentVersion = null;
+  $scope.localVersion = 0.1
+
+  // $scope.$storage.theme = $scope.theme;
+
+
 
   // $scope.filtered = {};
 
@@ -62,6 +70,7 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
   $scope.maximize = function(){
     win.maximize();
   }
+
 
 
   $scope.showLibrary = function(){
@@ -102,18 +111,18 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
     var iTunes = []
     var dbiTunes = []
     var stream = fs.createReadStream(iTunesDir)
-      .pipe(itunes.createTrackStream())
-      .on('data', function(data) {
-        iTunes.push(data)
-      }).on("end", function(err, resp){
-        for(var i = 0; i < iTunes.length; i++){
-          iTunes[i].children = []
-          dbiTunes.push(iTunes[i])
-        }
-        db.insert(dbiTunes, function() {
-          $scope.$apply($scope.populate);
-        });
-      })
+    .pipe(itunes.createTrackStream())
+    .on('data', function(data) {
+      iTunes.push(data)
+    }).on("end", function(err, resp){
+      for(var i = 0; i < iTunes.length; i++){
+        iTunes[i].children = []
+        dbiTunes.push(iTunes[i])
+      }
+      db.insert(dbiTunes, function() {
+        $scope.$apply($scope.populate);
+      });
+    })
   }
 
   $scope.getSong = function (song){
@@ -123,12 +132,12 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
       var songChildren = children[0].children; 
       // console.log(songChildren)
       $scope.findChildren(songChildren, function(){
-        
+
       });
     })
     $timeout(function() {
       $scope.focus = true; 
-    ;}, 10);   
+      ;}, 10);   
   }
 
   $scope.findChildren = function(songChildren, callback){
@@ -249,9 +258,19 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', function ($scope, $timeout)
       $scope.waiting = false;
     }, 500)
   }
+  $scope.checkForUpdates = function(){
+    $http.get('http://apolloplaylists.herokuapp.com/api/v1/update.json').
+      success(function(data, status, headers, config) {
+        $scope.currentVersion = data.currentVersion
+    }).
+      error(function(data, status, headers, config) {
+        c("No Connection")
+    });
+  }
 
   // initialize
   $scope.populate();
+  $scope.checkForUpdates();
 }])
 
 apollo.controller('focusCtrl', ['$scope', function($scope){

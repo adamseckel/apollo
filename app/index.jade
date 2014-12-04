@@ -1,22 +1,19 @@
-html(lang='en')
+html(lang='en' ng-app="apollo" ng-controller="menuCtrl")
   head
     link(href="./bower_components/foundation-5/css/normalize.css", rel="stylesheet")
     link(href="./bower_components/foundation-5/css/foundation.css", rel="stylesheet")
     link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css", rel="stylesheet")
     link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css", rel="stylesheet")
-    //- link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-filled.css", rel="stylesheet")
-    link(href="./assets/css/app.css", rel="stylesheet")
     script(src="./bower_components/angular/angular.js")
     script(src="./bower_components/jquery/dist/jquery.js")
     script(src="./bower_components/angular-animate/angular-animate.js")
     script(src="./bower_components/angular-foundation/mm-foundation-tpls.js")
     script(src="./bower_components/angular-foundation/mm-foundation.js")
-    script(src="./bower_components/store.js-master/store.min.js")
-    //- script(src="./bower_components/flowtype.js-master/flowtype.js")
+    script(src="./bower_components/angular-local-storage/dist/angular-local-storage.js")
     script(src="./node_modules/underscore/underscore-min.js")
-    //- script(src="./assets/js/resizer.js")
     script(src="./assets/js/database.js")
     script(src="./assets/js/app.js")
+    link(ng-href="./assets/css/{{ theme }}.css", rel="stylesheet")
     script.
       win.on('close', function() {
         this.hide(); // Pretend to be closed already
@@ -25,8 +22,8 @@ html(lang='en')
       });
 
 
-  body(ng-app="apollo")
-    .top(ng-controller="menuCtrl")
+  body()
+    .top( )
       .topbar  
         .small-4.large-4.columns
           span.left.frame
@@ -85,7 +82,19 @@ html(lang='en')
                 td {{song["Play Count"]}}
         
 
-        .settings(ng-show="settings").fadeIn
+        .settings(ng-show="settings").fadeIn.center
+          h4 THEME:
+          .select-style.center
+            select(ng-model="theme" ng-options="theme as theme for theme in themes")
+          br
+          br
+          .update(ng-show="localVersion < currentVersion")
+            h4 Apollo is Out of Date. 
+            h5 Go to apolloplaylists.herokuapp.com to learn about upgrading.
+
+
+
+
         .waiting(ng-show="waiting").fadeIn.center
           #loading
             -for(n=0; n<3; n++)
@@ -105,10 +114,10 @@ html(lang='en')
 
           .row
             .columns.large-6.small-6
-              .info.songID
-                h1 {{selectedSong.Name}}
-                h3 {{selectedSong.Artist}}  
-                h4 {{selectedSong.Album}}
+              .songID
+                h1(data-fittext-max="30px") {{selectedSong.Name}}
+                h3() {{selectedSong.Artist}}  
+                h4() {{selectedSong.Album}}
                 
 
                 //- refactor to directive
@@ -129,16 +138,12 @@ html(lang='en')
                 p(ng-repeat="song in selectedSong.Children") {{song._id}}
             .columns.large-6.small-6
               .info
+                //- a(href="file:///Users/adamseckel/Music/iTunes/iTunes%20Collection/Music/I%20Am%20Legion/I%20Am%20Legion/Choosing%20for%20You%20(Original%20Mix).mp3"  download="song.mp3") FILE!
                 .child(ng-repeat="child in currentSongChildren")
                   span
-                    a(ng-click="removeChild(child)")
-                      | x 
-                  span 
-                    | - {{child.Name}} - {{child.Artist}}
-                 
-  
-
-            
+                    p
+                      i.pe-7s-close.pe-va.pe-2x(ng-click="removeChild(child)")
+                      {{child.Name}} - {{child.Artist}}
           
           .bottomBar
             .row
