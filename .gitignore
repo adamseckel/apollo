@@ -1,5 +1,7 @@
 /node_modules
 /app/bower_components
+/app/node_modules
 /dist
 /cache
 /app/db
+/app/*.m3u

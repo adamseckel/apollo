@@ -6,6 +6,10 @@
   font-family: raleway-regular;
   src: url(../fonts/raleway-regular.ttf);
 }
+@font-face {
+  font-family: linea;
+  src: url(../fonts/linea-arrows-10.ttf);
+}
 hr {
   border-color: #383838;
 }
@@ -32,10 +36,30 @@ h6 {
 .row {
   max-width: none;
 }
+.mysettings i,
+.mysettings a {
+  -webkit-transition: all 0.2s;
+}
+.mysettings i:hover,
+.mysettings a:hover {
+  -webkit-transition: all 0.2s;
+  color: #dedede;
+}
 .frame {
   padding-right: 5px;
   padding-top: 16px;
-  font-family: raleway-thin;
+}
+.frame a {
+  color: #7b7b7b;
+  font-size: 23px;
+  font-family: linea;
+  line-height: 0;
+  -webkit-transition: all 0.2s;
+}
+.frame a:hover {
+  -webkit-transition: all 0.2s;
+  /*font-size: 27px;*/
+  /*color: @grayLighter;*/
 }
 .frame i {
   line-height: 0;
@@ -44,7 +68,7 @@ h6 {
   color: #ffffff;
 }
 .topbar {
-  background-color: #1f1f1f;
+  background-color: #202020;
   cursor: default;
   -webkit-app-region: drag;
   z-index: 10;
@@ -62,7 +86,7 @@ h6 {
 .topbar h5,
 .topbar h6,
 .topbar i {
-  color: #ffffff;
+  color: #7b7b7b;
   cursor: default;
 }
 .topbar i {
@@ -94,18 +118,26 @@ body {
   bottom: 15%;
   z-index: 666;
   -webkit-box-shadow: 0px 0px 24px 1px rgba(0, 0, 0, 0.2);
-  background-color: #ffffff;
+  background-color: #202020;
   /*height: 200px;*/
 }
+.focus input {
+  background-color: #202020;
+  color: #7b7b7b;
+  border: 1px solid  #7b7b7b;
+}
 .focus i {
-  color: #000000;
+  color: #7b7b7b;
+}
+.focus .child p {
+  color: #7b7b7b;
 }
 .focus .child i {
   margin-right: 5px;
   cursor: pointer;
 }
 .focus .child a {
-  color: black;
+  color: #7b7b7b;
   font: ralewa;
 }
 .focus .songID {
@@ -115,12 +147,15 @@ body {
 .focus .songID h1 {
   font-size: 30px;
   margin-top: 0px;
+  color: #7b7b7b;
 }
 .focus .songID h3 {
   font-size: 15px;
+  color: #7b7b7b;
 }
 .focus .songID h4 {
   font-size: 15px;
+  color: #7b7b7b;
 }
 .focus .close {
   position: absolute;
@@ -137,42 +172,7 @@ body {
 .focus .close i {
   line-height: 30px !important;
   z-index: 558;
-  color: black;
-}
-.focus .bottomBar {
-  height: 40px;
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background-color: #bfbfbf;
-  line-height: 15px;
-}
-.focus .bottomBar .columns {
-  padding: 0;
-}
-.focus .bottomBar i {
-  color: white;
-  padding-right: 15px;
-}
-.focus .bottomBar .bottomButton {
-  background-color: transparent;
-  margin-right: auto;
-  margin-left: auto;
-  padding-top: 4px;
-  height: 100%;
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  -webkit-transition: background-color 0.2s, color 0.2s;
-}
-.focus .bottomBar .bottomButton:hover {
-  background-color: #1f1f1f;
-  -webkit-transition: 0.1s linear all;
-}
-.focus .bottomBar .bottomButton a {
-  color: white;
-  font-size: 16px;
+  color: #7b7b7b;
 }
 .focus table {
   width: 100%;
@@ -184,6 +184,41 @@ body {
 }
 .focus .info {
   overflow: hidden;
+}
+.bottomBar {
+  height: 40px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #242424;
+  line-height: 15px;
+}
+.bottomBar .columns {
+  padding: 0;
+}
+.bottomBar i {
+  color: #7b7b7b;
+  padding-right: 15px;
+}
+.bottomBar .bottomButton {
+  background-color: transparent;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 4px;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: background-color 0.2s, color 0.2s;
+}
+.bottomBar .bottomButton:hover {
+  background-color: #202020;
+  -webkit-transition: 0.1s linear all;
+}
+.bottomBar .bottomButton a {
+  color: #7b7b7b;
+  font-size: 16px;
 }
 .focusBlur {
   position: absolute;
@@ -199,16 +234,16 @@ body {
   -webkit-transition: -webkit-filter 0.5s;
 }
 .menu {
-  border-bottom: 1px #eeeeee solid;
+  /*border-bottom: 1px #eeeeee solid;*/
   position: relative;
-  background-color: #ffffff;
+  background-color: #363636;
   height: 50px;
   width: 100%;
   /*padding-top: 5px;*/
   z-index: 9;
 }
 .menu a {
-  color: #000000;
+  color: #7b7b7b;
 }
 .menu .column,
 .menu .columns {
@@ -244,26 +279,92 @@ body {
   -webkit-app-region: no-drag;
 }
 .music table {
-  border: 1px solid #ffffff;
+  /*border: 1px solid @white;*/
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0px;
+  color: #7b7b7b;
+  /*border: 1px solid @white;*/
 }
 .music table td {
   padding: 1px;
+  color: #b3b3b3;
   /*      text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;*/
+}
+.music table {
+  background: #202020;
+  margin-bottom: 1.25rem;
+  border: none;
+  /*border: solid 1px #dddddd;*/
+  table-layout: auto;
+}
+.music table caption {
+  background: transparent;
+  color: #222222;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.music table thead {
+  background: #202020;
+}
+.music table thead tr th,
+.music table thead tr td {
+  padding: 0.5rem 0.625rem 0.625rem;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #b3b3b3;
+}
+.music table tfoot {
+  background: #202020;
+}
+.music table tfoot tr th,
+.music table tfoot tr td {
+  padding: 0.5rem 0.625rem 0.625rem;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #222222;
+}
+.music table tr th,
+.music table tr td {
+  padding: 0.5625rem 0.625rem;
+  font-size: 0.875rem;
+  color: #b3b3b3;
+  text-align: left;
+}
+.music table tr.even,
+.music table tr.alt,
+.music table tr:nth-of-type(even) {
+  background: #242424;
+}
+.music table thead tr th,
+.music table tfoot tr th,
+.music table tfoot tr td,
+.music table tbody tr th,
+.music table tbody tr td,
+.music table tr td {
+  display: table-cell;
+  line-height: 1.125rem;
 }
 .downset {
   margin-top: 50px;
   -webkit-transition: 0.1s linear all;
 }
 .bubble {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  height: 300px;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #c3baba;
   padding: 10px 5px 10px 5px;
-  position: relative;
+  /*position: relative;*/
   background: #ffffff;
   /*-webkit-border-radius: 5px;*/
-  -webkit-box-shadow: 0px 0px 10px 1px #616161;
+  -webkit-box-shadow: 0px 0px 5px 1px #616161;
 }
 .bubble .seeMore {
   margin-bottom: 10px;
@@ -279,26 +380,13 @@ body {
   overflow: hidden;
 }
 .bubble .container:hover {
-  background-color: #1f1f1f;
+  background-color: #202020;
   color: #ffffff;
   /*line-height: 15px;*/
   /*border-radius: 5px;*/
 }
 .bubble .indent {
   padding: 1px 5px 0px 5px;
-}
-.bubble:after {
-  z-index: 999;
-  content: " ";
-  display: block;
-  height: 20px;
-  position: absolute;
-  left: 80px;
-  top: -10px;
-  width: 20px;
-  background: #ffffff;
-  -webkit-transform: rotate(45deg);
-  -webkit-box-shadow: -5px -5px 6px rgba(0, 0, 0, 0.3);
 }
 .offset {
   margin-left: 300px;
@@ -324,13 +412,14 @@ body {
   height: 100%;
   width: 100%;
   padding-top: 7px;
+  color: #7b7b7b;
   position: relative;
   cursor: pointer;
   -webkit-transition: background-color 0.2s, color 0.2s;
 }
 .menuIcon:hover,
 .inputWrapper:hover {
-  background-color: #dedede;
+  background-color: #242424;
   -webkit-transition: background-color 0.2s;
 }
 .fileInput {
@@ -371,8 +460,38 @@ hr {
   margin: 0;
   padding: 0;
 }
+.playlistFocus {
+  position: absolute;
+  top: 20%;
+  right: 5%;
+  left: 5%;
+  bottom: 15%;
+  z-index: 999;
+  -webkit-box-shadow: 0px 0px 24px 1px rgba(0, 0, 0, 0.2);
+  background-color: #202020;
+  padding: 30px;
+  padding-top: 20px;
+}
+.playlistFocus h4 {
+  color: #7b7b7b;
+}
+.playlistFocus .list {
+  color: #7b7b7b;
+  border-top: 1px solid #c3baba;
+  overflow: scroll;
+  height: 83%;
+  padding-bottom: 20px;
+  font-family: raleway-regular;
+}
+.playlistFocus .list p {
+  margin-bottom: 2px;
+  color: #7b7b7b;
+}
+.playlistFocus .artist {
+  color: #8c8c8c;
+}
 .add {
-  background-color: #1f1f1f;
+  background-color: #202020;
   border-radius: 50px;
   width: 32px;
   height: 32px;
@@ -401,7 +520,7 @@ hr {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #1f1f1f;
+  background-color: #202020;
   color: #fff;
 }
 .settings h1,
@@ -433,7 +552,7 @@ hr {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #1f1f1f;
+  background-color: #202020;
   padding-top: 20%;
   /*margin-bottom: auto;*/
 }
@@ -483,11 +602,11 @@ hr {
   width: 200px;
   border-radius: 0px;
   overflow: hidden;
-  background-color: #1f1f1f;
+  background-color: #202020;
   color: #fff;
   text-align: center;
   font-family: raleway-thin;
-  background: #1f1f1f url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
+  background: #202020 url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
 }
 .select-style select {
   padding: 5px 8px;
@@ -495,7 +614,7 @@ hr {
   width: 180px;
   border: none;
   box-shadow: none;
-  background-color: #1f1f1f;
+  background-color: #202020;
   text-align: center;
   background-image: none;
   -webkit-appearance: none;

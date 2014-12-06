@@ -5,14 +5,15 @@
     <link href="./bower_components/foundation-5/css/foundation.css" rel="stylesheet"/>
     <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/helper.css" rel="stylesheet"/>
     <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet"/>
+    <link href="./assets/fonts/styles.css" rel="stylesheet"/>
     <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/jquery/dist/jquery.js"></script>
     <script src="./bower_components/angular-animate/angular-animate.js"></script>
     <script src="./bower_components/angular-foundation/mm-foundation-tpls.js"></script>
     <script src="./bower_components/angular-foundation/mm-foundation.js"></script>
-    <script src="./bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <script src="./node_modules/underscore/underscore-min.js"></script>
     <script src="./assets/js/database.js"></script>
+    <script src="./assets/js/util.js"></script>
     <script src="./assets/js/app.js"></script>
     <link ng-href="./assets/css/{{ theme }}.css" rel="stylesheet"/>
     <script>
@@ -28,12 +29,12 @@
   <body>
     <div class="top">
       <div class="topbar"> 
-        <div class="small-4 large-4 columns"><span class="left frame"><a href="javascript:void(0)" onclick="win.close();"><i class="pe-7s-close pe-3x"></i></a></span><span class="left frame"><a href="javascript:void(0)" onclick="win.minimize();"><i class="pe-7s-close pe-3x"></i></a></span><span class="left frame"><a href="javascript:void(0)" onclick="win.maximize();"><i class="pe-7s-close pe-3x"></i></a></span>
+        <div class="small-4 large-4 columns"><span class="left frame"><a href="javascript:void(0)" onclick="win.close();">&#xe073;</a></span><span class="left frame"><a href="javascript:void(0)" onclick="win.minimize();">&#xe071;</a></span><span class="left frame"><a href="javascript:void(0)" onclick="win.maximize();">&#xe072;</a></span>
         </div>
         <div class="small-4 large-4 columns center"> 
           <h5>APOLLO</h5>
         </div>
-        <div class="small-4 large-4 columns right"> <a href="javascript:void(0)" ng-click="menu = !menu" ng-hide="settings"><i class="pe-7s-menu pe-2x">         </i></a><a href="javascript:void(0)" ng-click="settings = !settings" ng-show="settings"><i class="pe-7s-close pe-3x closeRight"></i></a></div>
+        <div class="small-4 large-4 columns right mysettings"><a href="javascript:void(0)" ng-click="menu = !menu" ng-hide="settings"><i class="pe-7s-menu pe-2x">         </i></a><a href="javascript:void(0)" ng-click="settings = !settings" ng-show="settings"><i class="pe-7s-close pe-3x closeRight"></i></a></div>
       </div>
       <div class="content">
         <div ng-show="menu" class="menu fadeDown">
@@ -43,7 +44,7 @@
                   <input type="file" accept=".xml" onchange="angular.element(this).scope().importItunes(this);" class="fileInput"/></i></div>
             </div>
             <div class="columns large-4 small-4">
-              <div class="menuIcon"><a href="javascript:void(0)" ng-click="playlistFocus = !playlistFocus"><i class="pe-7s-loop pe-2x"></i></a></div>
+              <div class="menuIcon"><a href="javascript:void(0)" ng-click="playlistFocus = !playlistFocus"><i class="pe-7s-ribbon pe-2x"></i></a></div>
             </div>
             <div class="columns large-4 small-4">
               <div href="javascript:void(0)" ng-click="settings = !settings" class="menuIcon center"><a><i class="pe-7s-config pe-2x"></i></a></div>
@@ -105,23 +106,23 @@
                 <h3>{{selectedSong.Artist}}  </h3>
                 <h4>{{selectedSong.Album}}</h4>
                 <input type="text" ng-model="addSong"/><br/><br/>
-                <div ng-if="addSong" class="bubble">
-                  <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="seeMore">
-                     
-                    See {{ (library | filter:addSong).length - 6}} More Results.
-                  </p>
-                  <div ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" class="container"> 
-                    <p ng-click="addLink(song);"> {{song.Name}} - {{song.Artist}}</p>
-                  </div>
-                  <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="indent">...</p>
-                  <p ng-if="addSong &amp;&amp; (library | filter:addSong).length == 0" class="indent">No Results</p>
-                </div>
               </div>
               <div class="links">
                 <p ng-repeat="song in selectedSong.Children">{{song._id}}</p>
               </div>
             </div>
             <div class="columns large-6 small-6">
+              <div ng-if="addSong" class="bubble">
+                <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="seeMore">
+                   
+                  See {{ (library | filter:addSong).length - 6}} More Results.
+                </p>
+                <div ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" class="container"> 
+                  <p ng-click="addLink(song);"> {{song.Name}} - {{song.Artist}}</p>
+                </div>
+                <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="indent">...</p>
+                <p ng-if="addSong &amp;&amp; (library | filter:addSong).length == 0" class="indent">No Results</p>
+              </div>
               <div class="info">
                 <div ng-repeat="child in currentSongChildren" class="child"><span>
                     <p><i ng-click="removeChild(child)" class="pe-7s-close pe-va pe-2x"></i>{{child.Name}} - {{child.Artist}}</p></span></div>
@@ -135,6 +136,22 @@
               </div>
               <div class="columns large-6 small-6">
                 <div ng-click="delete(selectedSong._id);" class="bottomButton center"><a> <i class="pe-7s-trash pe-va pe-2x"></i>Delete From Apollo</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-show="playlistFocus" class="playlistFocus fadeIn">
+          <h4>Playlist for {{selectedSong.Name}}</h4>
+          <div class="list">
+            <p ng-repeat="song in playlist">{{song.Name}} - <span class="artist">{{song.Artist}}</span></p>
+          </div>
+          <div class="bottomBar">
+            <div class="row">
+              <div class="columns large-6 small-6">
+                <div ng-click="generatePlaylist(selectedSong._id);" class="bottomButton center"><a download="{{playlistName}}" ng-href="{{ playlistURL }}"><i class="pe-7s-musiclist pe-va pe-2x"></i>Save your Playlist</a></div>
+              </div>
+              <div class="columns large-6 small-6">
+                <div ng-click="playlistFocus = !playlistFocus" class="bottomButton center"><a> <i class="pe-7s-close pe-va pe-2x"></i>Cancel</a></div>
               </div>
             </div>
           </div>

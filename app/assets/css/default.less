@@ -8,6 +8,8 @@
 @grayFlat: #1f1f1f;
 @white: #fff;
 @black: #000000;
+@bottomBar: #bfbfbf;
+@grayMiddle: #8C8C8C;
 
 @font-face {
   font-family: raleway-thin;
@@ -17,6 +19,11 @@
   font-family: raleway-regular;
   src: url(../fonts/raleway-regular.ttf);
 }
+@font-face{
+  font-family: linea;
+  src: url(../fonts/linea-arrows-10.ttf);
+} 
+
 hr {
   border-color: #383838;
 }
@@ -39,17 +46,39 @@ h1,h2,h3,h4,h5,h6 {
 .row {
   max-width: none;
 }
+.mysettings{
+  i, a{
+    -webkit-transition: all 0.2s;
+    &:hover{
+      -webkit-transition: all 0.2s;
+      color: @grayLighter;
+    } 
+  }
+}
 .frame {
+  a{
+    color: white;  
+    font-size: 23px;
+    font-family: linea;
+    line-height: 0;
+    -webkit-transition: all 0.2s;
+    &:hover{
+      -webkit-transition: all 0.2s;
+      /*font-size: 27px;*/
+      /*color: @grayLighter;*/
+    }
+  }
+
   padding-right: 5px;
-  
   padding-top: 16px;
+
   i{
     line-height: 0;
+
   }
   span a{
     color: @white;
   }
-  font-family: raleway-thin;
 }
 .topbar{
   background-color: @primary;
@@ -143,41 +172,6 @@ body {
       color: black;
     }
   }
-  .bottomBar{
-    .columns{
-      padding: 0;
-    }
-    i{
-      color: white;
-      padding-right: 15px;
-    }
-    height: 40px;
-    position: absolute;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background-color: #bfbfbf;
-    line-height: 15px;
-    .bottomButton{
-      background-color: transparent;
-      margin-right: auto;
-      margin-left: auto;
-      padding-top: 4px;
-      height: 100%;
-      width: 100%;
-      position: relative;
-      cursor: pointer;
-      -webkit-transition: background-color 0.2s, color 0.2s;
-      &:hover{
-        background-color: @primary;
-        -webkit-transition: 0.1s linear all;
-      }
-      a{
-        color: white;
-        font-size: 16px;
-      }
-    }
-  }
   table{
     width: 100%;
   }
@@ -189,6 +183,41 @@ body {
   }
   .info{
     overflow: hidden;
+  }
+}
+.bottomBar{
+  .columns{
+    padding: 0;
+  }
+  i{
+    color: white;
+    padding-right: 15px;
+  }
+  height: 40px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: @bottomBar;
+  line-height: 15px;
+  .bottomButton{
+    background-color: transparent;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 4px;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+    -webkit-transition: background-color 0.2s, color 0.2s;
+    &:hover{
+      background-color: @primary;
+      -webkit-transition: 0.1s linear all;
+    }
+    a{
+      color: white;
+      font-size: 16px;
+    }
   }
 }
 
@@ -254,8 +283,15 @@ body {
 
   -webkit-transition: 0.1s linear all;
   -webkit-app-region: no-drag;
-  table{
-    border: 1px solid @white;
+    table{
+    /*border: 1px solid @white;*/
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0px;
+
+    /*border: 1px solid @white;*/
     td {
       padding: 1px;
 /*      text-overflow: ellipsis;
@@ -272,11 +308,16 @@ body {
   width: 100%;
   background-color: @white;
   padding: 10px 5px 10px 5px;
-  position: relative;
+    position: absolute;
+  right:10px;
+  top: 10px;
+  height: 210px;
+  width: 100%;
   background: @white;
+  overflow: hidden;
 
   /*-webkit-border-radius: 5px;*/
-  -webkit-box-shadow: 0px 0px 10px 1px #616161;
+  -webkit-box-shadow: 0px 0px 5px 1px #616161;
   .seeMore {
     margin-bottom: 10px;
     text-align: right;
@@ -290,6 +331,7 @@ body {
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      margin-bottom: 1px;
     }
     &:hover{
       background-color: @primary;
@@ -389,6 +431,33 @@ body {
 hr {
   margin: 0;
   padding: 0;
+}
+.playlistFocus{
+  position: absolute;
+  top: 20%;
+  right: 5%;
+  left: 5%;
+  bottom: 15%;
+  z-index: 999;
+  -webkit-box-shadow: 0px 0px 24px 1px rgba(0,0,0,0.2);
+  background-color: @white; 
+  padding: 30px;
+  padding-top: 20px;
+  .list{
+    border-top: 1px solid @grayLighter;
+    overflow: scroll;
+    height: 83%;
+    padding-bottom: 20px;
+    p{
+      margin-bottom: 2px;
+    }
+    font-family: raleway-regular;
+
+  }
+  .artist{
+    color: @grayMiddle;
+  }
+
 }
 .add{
   background-color: @primary;
@@ -491,39 +560,39 @@ hr {
 }
 
 .select-style {
-    padding: 0;
-    margin: 0;
-    margin-right: auto;
-    margin-left: auto;
-    border: 1px solid #fff;
-    width: 200px;
-    border-radius: 0px;
-    overflow: hidden;
-    background-color: @primary;
-    color: #fff;
-    text-align: center;
-    font-family: raleway-thin;
+  padding: 0;
+  margin: 0;
+  margin-right: auto;
+  margin-left: auto;
+  border: 1px solid #fff;
+  width: 200px;
+  border-radius: 0px;
+  overflow: hidden;
+  background-color: @primary;
+  color: #fff;
+  text-align: center;
+  font-family: raleway-thin;
 
-    background: @primary url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
+  background: @primary url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
 }
 
 .select-style select {
-    padding: 5px 8px;
-    margin-left: 20px;
-    width: 180px;
-    border: none;
-    box-shadow: none;
-    background-color: @primary;
-    text-align: center;
-    
-    background-image: none;
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
+  padding: 5px 8px;
+  margin-left: 20px;
+  width: 180px;
+  border: none;
+  box-shadow: none;
+  background-color: @primary;
+  text-align: center;
+
+  background-image: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .select-style select:focus {
-    outline: none;
+  outline: none;
 }
 /*ANIMATIONS*/
 

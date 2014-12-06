@@ -17,7 +17,8 @@ module.exports = function(grunt) {
           compress: false
         },
         files: {
-          "app/assets/css/app.css": "app/assets/css/*.less"
+          "app/assets/css/Default.css": "app/assets/css/default.less",
+          "app/assets/css/Dark.css": "app/assets/css/dark.less"
         }
       }
     },

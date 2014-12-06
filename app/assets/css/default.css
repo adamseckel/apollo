@@ -6,6 +6,10 @@
   font-family: raleway-regular;
   src: url(../fonts/raleway-regular.ttf);
 }
+@font-face {
+  font-family: linea;
+  src: url(../fonts/linea-arrows-10.ttf);
+}
 hr {
   border-color: #383838;
 }
@@ -32,10 +36,30 @@ h6 {
 .row {
   max-width: none;
 }
+.mysettings i,
+.mysettings a {
+  -webkit-transition: all 0.2s;
+}
+.mysettings i:hover,
+.mysettings a:hover {
+  -webkit-transition: all 0.2s;
+  color: #dedede;
+}
 .frame {
   padding-right: 5px;
   padding-top: 16px;
-  font-family: raleway-thin;
+}
+.frame a {
+  color: white;
+  font-size: 23px;
+  font-family: linea;
+  line-height: 0;
+  -webkit-transition: all 0.2s;
+}
+.frame a:hover {
+  -webkit-transition: all 0.2s;
+  /*font-size: 27px;*/
+  /*color: @grayLighter;*/
 }
 .frame i {
   line-height: 0;
@@ -139,41 +163,6 @@ body {
   z-index: 558;
   color: black;
 }
-.focus .bottomBar {
-  height: 40px;
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background-color: #bfbfbf;
-  line-height: 15px;
-}
-.focus .bottomBar .columns {
-  padding: 0;
-}
-.focus .bottomBar i {
-  color: white;
-  padding-right: 15px;
-}
-.focus .bottomBar .bottomButton {
-  background-color: transparent;
-  margin-right: auto;
-  margin-left: auto;
-  padding-top: 4px;
-  height: 100%;
-  width: 100%;
-  position: relative;
-  cursor: pointer;
-  -webkit-transition: background-color 0.2s, color 0.2s;
-}
-.focus .bottomBar .bottomButton:hover {
-  background-color: #e74c3c;
-  -webkit-transition: 0.1s linear all;
-}
-.focus .bottomBar .bottomButton a {
-  color: white;
-  font-size: 16px;
-}
 .focus table {
   width: 100%;
 }
@@ -184,6 +173,41 @@ body {
 }
 .focus .info {
   overflow: hidden;
+}
+.bottomBar {
+  height: 40px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #bfbfbf;
+  line-height: 15px;
+}
+.bottomBar .columns {
+  padding: 0;
+}
+.bottomBar i {
+  color: white;
+  padding-right: 15px;
+}
+.bottomBar .bottomButton {
+  background-color: transparent;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 4px;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: background-color 0.2s, color 0.2s;
+}
+.bottomBar .bottomButton:hover {
+  background-color: #e74c3c;
+  -webkit-transition: 0.1s linear all;
+}
+.bottomBar .bottomButton a {
+  color: white;
+  font-size: 16px;
 }
 .focusBlur {
   position: absolute;
@@ -244,7 +268,13 @@ body {
   -webkit-app-region: no-drag;
 }
 .music table {
-  border: 1px solid #ffffff;
+  /*border: 1px solid @white;*/
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0px;
+  /*border: 1px solid @white;*/
 }
 .music table td {
   padding: 1px;
@@ -257,13 +287,17 @@ body {
   -webkit-transition: 0.1s linear all;
 }
 .bubble {
-  width: 100%;
   background-color: #ffffff;
   padding: 10px 5px 10px 5px;
-  position: relative;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  height: 210px;
+  width: 100%;
   background: #ffffff;
+  overflow: hidden;
   /*-webkit-border-radius: 5px;*/
-  -webkit-box-shadow: 0px 0px 10px 1px #616161;
+  -webkit-box-shadow: 0px 0px 5px 1px #616161;
 }
 .bubble .seeMore {
   margin-bottom: 10px;
@@ -277,6 +311,7 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  margin-bottom: 1px;
 }
 .bubble .container:hover {
   background-color: #e74c3c;
@@ -370,6 +405,31 @@ body {
 hr {
   margin: 0;
   padding: 0;
+}
+.playlistFocus {
+  position: absolute;
+  top: 20%;
+  right: 5%;
+  left: 5%;
+  bottom: 15%;
+  z-index: 999;
+  -webkit-box-shadow: 0px 0px 24px 1px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  padding: 30px;
+  padding-top: 20px;
+}
+.playlistFocus .list {
+  border-top: 1px solid #dedede;
+  overflow: scroll;
+  height: 83%;
+  padding-bottom: 20px;
+  font-family: raleway-regular;
+}
+.playlistFocus .list p {
+  margin-bottom: 2px;
+}
+.playlistFocus .artist {
+  color: #8c8c8c;
 }
 .add {
   background-color: #e74c3c;

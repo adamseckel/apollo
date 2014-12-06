@@ -1,41 +1,9 @@
-var apollo    = angular.module("apollo", ['mm.foundation', 'ngAnimate'])
-var itunes    = require('itunes-library-stream'),
-writer    = require('m3u').writer(),
-fs        = require('fs');
-
-
-var gui = require('nw.gui');
-var win = gui.Window.get(); 
-
-// quick console
-c = function(x){
-  console.log(x)
-}
-
-// last method for arrays
-if (!Array.prototype.last){
-  Array.prototype.last = function(){
-    return this[this.length - 1];
-  };
-};
-// second last
-if (!Array.prototype.secondLast){
-  Array.prototype.secondLast = function(){
-    return this[this.length - 2];
-  };
-};
-// Clone Array
-Array.prototype.clone = function() {
-  return this.slice(0);
-};
-// Shuffle Array
-function shuffle(o){ //v1.0
-  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
-};
+var apollo = angular.module("apollo", ['mm.foundation', 'ngAnimate'])
 
 // Angular
-apollo.controller('menuCtrl', ['$scope', '$timeout', '$http',function ($scope, $timeout, $http){
+apollo.controller('menuCtrl', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http){
+  
+  // init
   $scope.menu = false;
   $scope.sideBar = false;
   $scope.settings = false;
@@ -45,33 +13,25 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http',function ($scope, $
   $scope.focus = false;
   $scope.currentSongChildren = [];
   $scope.alert = false;
+  $scope.playlistFocus = false;
   $scope.alertMessage = null;
   $scope.playlist = null;
-  var solution = null;
-  var playlist = null;
+  $scope.playlistURL = null;
+  $scope.playlistName = null;
   $scope.themes = ["Default", "Dark"]
   $scope.theme = $scope.themes[0];
   $scope.currentVersion = null;
   $scope.localVersion = 0.1
-
-  // $scope.$storage.theme = $scope.theme;
-
-
-
-  // $scope.filtered = {};
-
-
-  var vm = $scope;
   $scope.selectedSong = ""
-  // $scope.library = null
   $scope.rowCollection = [];
-  
 
+  var solution = null;
+  var playlist = null;
+  var vm = $scope;
+  
   $scope.maximize = function(){
     win.maximize();
   }
-
-
 
   $scope.showLibrary = function(){
     $scope.populated = true;
@@ -87,7 +47,6 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http',function ($scope, $
       }
       $scope.waitingOff();
       $scope.showLibrary();
-
     });
   }
 
@@ -130,7 +89,6 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http',function ($scope, $
     $scope.selectedSongChildren = [];
     db.find({_id: $scope.selectedSong._id}, { children: 1, _id: 0 }, function(err, children){
       var songChildren = children[0].children; 
-      // console.log(songChildren)
       $scope.findChildren(songChildren, function(){
 
       });
@@ -160,7 +118,6 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http',function ($scope, $
   }
 
   $scope.addLink = function(song){
-    console.log(song._id)
     db.update({ _id: $scope.selectedSong._id }, { $addToSet: { "children": song._id} }, {}, function () {})    
     var addToArray=true;
     for(var i=0; i < $scope.currentSongChildren.length; i++){
@@ -210,6 +167,7 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http',function ($scope, $
       if (node_children.length == 0) {
         return false;
       };
+
       // Get every possible version?
       // path = path.clone();
 
@@ -239,42 +197,42 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http',function ($scope, $
 
   $scope.returnNames = function(solution){
     var playlist = []
+    $scope.playlist = []
 
     solution.forEach(function(id){
       $timeout(function(){
         db.find({_id: id}, function(err, docs){
           playlist.push(docs[0].Name)
+          $scope.playlist.push(docs[0])
           writer.file(docs[0].Location);
-          // after();
         }) 
       }, 50);
     })
     // This is awful...
     $timeout(function() {
-      console.log(playlist)
       fs.writeFile("Apollo - " + playlist[0] + ".m3u", writer.toString(), function(err){
         if (err) return console.log(err)
       })
+      $scope.playlistURL = "./Apollo - " + playlist[0] + ".m3u";
+      $scope.playlistName = "Apollo - " + playlist[0] + ".m3u";
       $scope.waiting = false;
+      $scope.focus = false;
+      $scope.playlistFocus = true;
     }, 500)
   }
   $scope.checkForUpdates = function(){
     $http.get('http://apolloplaylists.herokuapp.com/api/v1/update.json').
-      success(function(data, status, headers, config) {
-        $scope.currentVersion = data.currentVersion
+    success(function(data, status, headers, config) {
+      $scope.currentVersion = data.currentVersion
     }).
-      error(function(data, status, headers, config) {
-        c("No Connection")
+    error(function(data, status, headers, config) {
+      // c("No Connection")
     });
   }
 
   // initialize
   $scope.populate();
   $scope.checkForUpdates();
-}])
-
-apollo.controller('focusCtrl', ['$scope', function($scope){
-
 }])
 
 

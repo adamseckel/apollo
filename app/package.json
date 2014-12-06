@@ -1,15 +1,15 @@
 {
-  "name": "apollo",
+  "name": "Apollo",
   "version": "0.0.1",
   "main": "index.html",
   "window": {
-    "toolbar": true,
-    "frame": true
+    "toolbar": false,
+    "frame": false
   },
   "dependencies": {
     "itunes-data": "^0.1.1",
-    "local-json-db": "0.0.6",
+    "m3u": "0.0.2",
     "nedb": "^0.11.1",
-    "synchronize": "^0.9.8"
+    "underscore": "^1.7.0"
   }
 }
