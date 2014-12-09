@@ -1,8 +1,8 @@
 var apollo = angular.module("apollo", ['mm.foundation', 'ngAnimate'])
 
 // Angular
-apollo.controller('menuCtrl', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http){
-  
+apollo.controller('menuCtrl', ['$scope', '$timeout', '$http', '$filter', function ($scope, $timeout, $http, $filter){
+
   // init
   $scope.menu = false;
   $scope.sideBar = false;
@@ -18,16 +18,20 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http', function ($scope, 
   $scope.playlist = null;
   $scope.playlistURL = null;
   $scope.playlistName = null;
-  $scope.themes = ["Default", "Dark"]
-  $scope.theme = $scope.themes[0];
+  $scope.themes = ["Apollo", "Apollo-Dark"]
+  $scope.theme = $scope.theme = localStorage.theme || $scope.themes[1];
   $scope.currentVersion = null;
-  $scope.localVersion = 0.1
-  $scope.selectedSong = ""
-  $scope.rowCollection = [];
+  $scope.localVersion = 0.1;
+  $scope.selectedSong = "";
 
+  
   var solution = null;
   var playlist = null;
   var vm = $scope;
+
+  $scope.setUserTheme = function(){
+    localStorage.theme = $scope.theme;
+  }
   
   $scope.maximize = function(){
     win.maximize();
@@ -40,15 +44,21 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http', function ($scope, 
   $scope.populate = function(){
     db.find({ $not: {library: { $exists: true }}}, function(err, docs){
       $scope.library = docs; 
-      $scope.rowCollection = docs;
-      $scope.displayedCollection = [].concat($scope.rowCollection);
+
       if($scope.load == true){
         $timeout(function() { $scope.load = false }, 1200);  
       }
       $scope.waitingOff();
       $scope.showLibrary();
+
     });
   }
+  var orderBy = $filter('orderBy');
+  $scope.order = function(predicate, reverse) {
+    $scope.library = orderBy($scope.library, predicate, reverse);
+  };
+
+  $scope.order('Name',false);
 
   $scope.waitingOff= function() {
     $timeout(function() {$scope.waiting = false}, 1200);
@@ -113,8 +123,11 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http', function ($scope, 
     $scope.focus = false;
   }
 
-  $scope.songSelect = function(){
-
+  $scope.delete = function(song){
+    db.remove({ _id: song._id }, {}, function (err, numRemoved) {});
+    var index = $scope.library.indexOf(song)
+    $scope.library.splice(index, 1)
+    $scope.focus = false;
   }
 
   $scope.addLink = function(song){
@@ -149,13 +162,14 @@ apollo.controller('menuCtrl', ['$scope', '$timeout', '$http', function ($scope, 
       if(!solution){
         $scope.waiting = false;
         $scope.alert = true;
-        $scope.alertMessage = "THIS SONG DOES NOT HAVE ENOUGH LINKS."
+        $scope.alertMessage = "This song does not have enough links"
         $timeout(function(){
           $scope.alert = false;
         }, 2000)
       }
     },1000);
   }
+
 
   $scope.walk = function(node, path, callback){
     var node_children = null

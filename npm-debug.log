@@ -1,0 +1,89 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/adamseckel/.nvm/v0.10.33/bin/node',
+1 verbose cli   '/Users/adamseckel/.nvm/v0.10.33/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'uiTable',
+1 verbose cli   '--save' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 warn package.json apollo@0.0.1 No repository field.
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ 'uiTable', null ]
+7 verbose cache add name=undefined spec="uiTable" args=["uiTable",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'uiTable',
+8 verbose parsed url   path: 'uiTable',
+8 verbose parsed url   href: 'uiTable' }
+9 silly lockFile 5479a362-uiTable uiTable
+10 verbose lock uiTable /Users/adamseckel/.npm/5479a362-uiTable.lock
+11 silly lockFile 5479a362-uiTable uiTable
+12 silly lockFile 5479a362-uiTable uiTable
+13 verbose addNamed [ 'uiTable', '' ]
+14 verbose addNamed [ null, '*' ]
+15 silly lockFile 6e7b376c-uiTable uiTable@
+16 verbose lock uiTable@ /Users/adamseckel/.npm/6e7b376c-uiTable.lock
+17 silly addNameRange { name: 'uiTable', range: '*', hasData: false }
+18 verbose request where is /uiTable
+19 verbose request registry https://registry.npmjs.org/
+20 verbose request id c5bf91e26ee1bb2d
+21 verbose url raw /uiTable
+22 verbose url resolving [ 'https://registry.npmjs.org/', './uiTable' ]
+23 verbose url resolved https://registry.npmjs.org/uiTable
+24 verbose request where is https://registry.npmjs.org/uiTable
+25 info trying registry request attempt 1 at 17:18:44
+26 http GET https://registry.npmjs.org/uiTable
+27 http 404 https://registry.npmjs.org/uiTable
+28 verbose headers { date: 'Tue, 09 Dec 2014 01:18:44 GMT',
+28 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+28 verbose headers   'content-type': 'application/json',
+28 verbose headers   'cache-control': 'max-age=0',
+28 verbose headers   'content-length': '52',
+28 verbose headers   'accept-ranges': 'bytes',
+28 verbose headers   via: '1.1 varnish',
+28 verbose headers   age: '0',
+28 verbose headers   'x-served-by': 'cache-sjc3122-SJC',
+28 verbose headers   'x-cache': 'MISS',
+28 verbose headers   'x-cache-hits': '0',
+28 verbose headers   'x-timer': 'S1418087924.783721,VS0,VE88',
+28 verbose headers   'keep-alive': 'timeout=10, max=50',
+28 verbose headers   connection: 'Keep-Alive' }
+29 silly registry.get cb [ 404,
+29 silly registry.get   { date: 'Tue, 09 Dec 2014 01:18:44 GMT',
+29 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+29 silly registry.get     'content-type': 'application/json',
+29 silly registry.get     'cache-control': 'max-age=0',
+29 silly registry.get     'content-length': '52',
+29 silly registry.get     'accept-ranges': 'bytes',
+29 silly registry.get     via: '1.1 varnish',
+29 silly registry.get     age: '0',
+29 silly registry.get     'x-served-by': 'cache-sjc3122-SJC',
+29 silly registry.get     'x-cache': 'MISS',
+29 silly registry.get     'x-cache-hits': '0',
+29 silly registry.get     'x-timer': 'S1418087924.783721,VS0,VE88',
+29 silly registry.get     'keep-alive': 'timeout=10, max=50',
+29 silly registry.get     connection: 'Keep-Alive' } ]
+30 silly lockFile 6e7b376c-uiTable uiTable@
+31 silly lockFile 6e7b376c-uiTable uiTable@
+32 error 404 404 Not Found: uiTable
+32 error 404
+32 error 404 'uiTable' is not in the npm registry.
+32 error 404 You should bug the author to publish it
+32 error 404 It was specified as a dependency of 'apollo'
+32 error 404
+32 error 404 Note that you can also install from a
+32 error 404 tarball, folder, or http url, or git url.
+33 error System Darwin 14.0.0
+34 error command "/Users/adamseckel/.nvm/v0.10.33/bin/node" "/Users/adamseckel/.nvm/v0.10.33/bin/npm" "install" "uiTable" "--save"
+35 error cwd /Users/adamseckel/Documents/CodeCore/Projects/apollo
+36 error node -v v0.10.33
+37 error npm -v 1.4.28
+38 error code E404
+39 verbose exit [ 1, true ]

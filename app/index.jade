@@ -6,36 +6,31 @@ html(lang='en' ng-app="apollo" ng-controller="menuCtrl")
     link(href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css", rel="stylesheet")
     link(href="./assets/fonts/styles.css", rel="stylesheet")
     script(src="./bower_components/angular/angular.js")
-    script(src="./bower_components/jquery/dist/jquery.js")
+    script(src="./bower_components/jquery/dist/jquery.min.js")
     script(src="./bower_components/angular-animate/angular-animate.js")
+    script(src="./bower_components/angular-cookies/angular-cookies.js")
     script(src="./bower_components/angular-foundation/mm-foundation-tpls.js")
     script(src="./bower_components/angular-foundation/mm-foundation.js")
     script(src="./node_modules/underscore/underscore-min.js")
+
     script(src="./assets/js/database.js")
     script(src="./assets/js/util.js")
     script(src="./assets/js/app.js")
     link(ng-href="./assets/css/{{ theme }}.css", rel="stylesheet")
-    script.
-      win.on('close', function() {
-        this.hide(); // Pretend to be closed already
-        console.log("We're closing...");
-        this.close(true);
-      });
+
 
 
   body()
     .top( )
       .topbar  
-        .small-4.large-4.columns
-          span.left.frame
-            a(href="javascript:void(0)" onclick="win.close();")
-              | &#xe073;
-          span.left.frame
-            a(href="javascript:void(0)" onclick="win.minimize();")
-              | &#xe071;
-          span.left.frame
-            a(href="javascript:void(0)" onclick="win.maximize();")
-              | &#xe072;
+        .small-4.large-4.columns.frame
+          span.left
+            button.myButton.closeWin(onclick="win.close();")
+          span.left
+            button.myButton.min(onclick="win.minimize();")
+          span.left
+            button.myButton.max(onclick="win.maximize();")
+
           //- .switch(ng-class="{hidden: settings}")
           //-   input#exampleCheckboxSwitch(type="checkbox" ng-click="sideBar = !sideBar")
           //-   label(for="exampleCheckboxSwitch")
@@ -43,10 +38,16 @@ html(lang='en' ng-app="apollo" ng-controller="menuCtrl")
         .small-4.large-4.columns.center 
           h5 APOLLO
         .small-4.large-4.columns.right.mysettings
-          a(href="javascript:void(0)" ng-click="menu = !menu" ng-hide="settings")
-            i.pe-7s-menu.pe-2x          
-          a(href="javascript:void(0)" ng-click="settings = !settings" ng-show="settings")
-            i.pe-7s-close.pe-3x.closeRight
+          .row
+            .columns.large-10.small-10
+              input.search(type="search" placeholder="Search" ng-model="fuzzySearch")
+            .columns.large-1.small-1.right
+            .columns.large-1.small-1.right
+
+              a(href="javascript:void(0)" ng-click="menu = !menu" ng-hide="settings")
+                i.pe-7s-menu.pe-2x          
+              a(href="javascript:void(0)" ng-click="settings = !settings" ng-show="settings")
+                i.pe-7s-close.pe-3x.closeRight
       .content
         .menu(ng-show="menu").fadeDown
           .row.center
@@ -63,30 +64,28 @@ html(lang='en' ng-app="apollo" ng-controller="menuCtrl")
               .menuIcon.center(href="javascript:void(0)" ng-click="settings = !settings")
                 a
                   i.pe-7s-config.pe-2x
-        .music(sticky-table-header rows="rowCollection" disabled="expression")
-          table(ng-class="{blurOut: focus}")
+        .music
+          table(ng-class="{blurOut: focus || playlistFocus}")
             thead
               tr
-                th Title
-                th Artist
-                th Album
-                th Year              
-                th Genre              
-                th Play Count
+                th(ng-click="reverse=!reverse; order('Name',reverse)") Title
+                th(ng-click="reverse=!reverse; order('Artist',reverse)") Artist
+                th(ng-click="reverse=!reverse; order('Album',reverse)") Album
+                th(ng-click="reverse=!reverse; order('Year',reverse)") Year              
+                th(ng-click="reverse=!reverse; order('Genre',reverse)") Genre              
             tbody(ng-if="populated")
-              tr(ng-repeat="song in library" ng-click="getSong(song)")
+              tr(ng-repeat="song in library | filter:fuzzySearch" ng-click="getSong(song)")
                 td {{song.Name}}
                 td {{song.Artist}}              
                 td {{song.Album}}
                 td {{song.Year}}
                 td {{song.Genre}}
-                td {{song["Play Count"]}}
-        
+
 
         .settings(ng-show="settings").fadeIn.center
           h4 THEME:
           .select-style.center
-            select(ng-model="theme" ng-options="theme as theme for theme in themes")
+            select(ng-model="theme" ng-options="theme as theme for theme in themes" ng-change="setUserTheme()")
           br
           br
           .update(ng-show="localVersion < currentVersion")
@@ -100,7 +99,7 @@ html(lang='en' ng-app="apollo" ng-controller="menuCtrl")
           #loading
             -for(n=0; n<3; n++)
               span
-        .focusBlur(ng-show="focus" ng-click="unBlur()").fadeIn
+        .focusBlur(ng-show="focus || playlistFocus" ng-click="unBlur(); playlistFocus = false").fadeIn
         .alert(ng-show="alert" ng-click="alert = !alert").fadeIn
           .message.center.block
             .content.centered    
@@ -129,15 +128,16 @@ html(lang='en' ng-app="apollo" ng-controller="menuCtrl")
                 
               .links
                 p(ng-repeat="song in selectedSong.Children") {{song._id}}
-            .columns.large-6.small-6
-              .bubble(ng-if="addSong")
-                p.seeMore(ng-if="addSong && (library | filter:addSong).length > 6") 
-                  | See {{ (library | filter:addSong).length - 6}} More Results.
-      
-                .container(ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" ) 
-                  p(ng-click="addLink(song);")  {{song.Name}} - {{song.Artist}}
-                p.indent(ng-if="addSong && (library | filter:addSong).length > 6") ...
-                p.indent(ng-if="addSong && (library | filter:addSong).length == 0") No Results
+            .columns.large-6.small-6.fixHeight
+              .bubble(ng-if="addSong").fadeIn
+                p.seeMore(ng-if="addSong && (library | filter:addSong).length > 0") 
+                  | {{ (library | filter:addSong).length}} Results.
+                p.seeMore(ng-if="addSong && (library | filter:addSong).length == 0") No Results
+                .results
+                  .container(ng-repeat="song in dogs = (library | filter:addSong)" ) 
+                    p(ng-click="addLink(song);")  {{song.Name}} - {{song.Artist}}
+                  //- p.indent(ng-if="addSong && (library | filter:addSong).length > 6") ...
+                  
               .info
                 //- a(href="file:///Users/adamseckel/Music/iTunes/iTunes%20Collection/Music/I%20Am%20Legion/I%20Am%20Legion/Choosing%20for%20You%20(Original%20Mix).mp3"  download="song.mp3") FILE!
                 .child(ng-repeat="child in currentSongChildren")
@@ -154,7 +154,7 @@ html(lang='en' ng-app="apollo" ng-controller="menuCtrl")
                     i.pe-7s-musiclist.pe-va.pe-2x
                     | Make Playlist (25)
               .columns.large-6.small-6
-                .bottomButton.center(ng-click="delete(selectedSong._id);")
+                .bottomButton.center(ng-click="delete(selectedSong);")
                   a 
                     i.pe-7s-trash.pe-va.pe-2x
                     | Delete From Apollo
@@ -187,10 +187,17 @@ html(lang='en' ng-app="apollo" ng-controller="menuCtrl")
           #loading
             -for(n=0; n<3; n++)
               span
+  
+    //- script.
+    //-   var gui = require('nw.gui');
+    //-   var mb = new gui.Menu({type:"menubar"});
+    //-   mb.createMacBuiltin("Apollo");
+    //-   gui.Window.get().menu = mb;
 
-    
     script.
-      var gui = require('nw.gui');
-      var mb = new gui.Menu({type:"menubar"});
-      mb.createMacBuiltin("your-app-name");
-      gui.Window.get().menu = mb;
+      win.on('close', function() {
+        this.hide(); // Pretend to be closed already
+        console.log("We're closing...");
+        this.close(true);
+      });
+

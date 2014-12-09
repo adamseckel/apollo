@@ -7,8 +7,9 @@
     <link href="./bower_components/pixeden-stroke-7-icon/pe-icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet"/>
     <link href="./assets/fonts/styles.css" rel="stylesheet"/>
     <script src="./bower_components/angular/angular.js"></script>
-    <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <script src="./bower_components/jquery/dist/jquery.min.js"></script>
     <script src="./bower_components/angular-animate/angular-animate.js"></script>
+    <script src="./bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="./bower_components/angular-foundation/mm-foundation-tpls.js"></script>
     <script src="./bower_components/angular-foundation/mm-foundation.js"></script>
     <script src="./node_modules/underscore/underscore-min.js"></script>
@@ -16,25 +17,27 @@
     <script src="./assets/js/util.js"></script>
     <script src="./assets/js/app.js"></script>
     <link ng-href="./assets/css/{{ theme }}.css" rel="stylesheet"/>
-    <script>
-      win.on('close', function() {
-        this.hide(); // Pretend to be closed already
-        console.log("We're closing...");
-        this.close(true);
-      });
-      
-      
-    </script>
   </head>
   <body>
     <div class="top">
       <div class="topbar"> 
-        <div class="small-4 large-4 columns"><span class="left frame"><a href="javascript:void(0)" onclick="win.close();">&#xe073;</a></span><span class="left frame"><a href="javascript:void(0)" onclick="win.minimize();">&#xe071;</a></span><span class="left frame"><a href="javascript:void(0)" onclick="win.maximize();">&#xe072;</a></span>
+        <div class="small-4 large-4 columns frame"><span class="left">
+            <button onclick="win.close();" class="myButton closeWin"></button></span><span class="left">
+            <button onclick="win.minimize();" class="myButton min"></button></span><span class="left">
+            <button onclick="win.maximize();" class="myButton max"></button></span>
         </div>
         <div class="small-4 large-4 columns center"> 
           <h5>APOLLO</h5>
         </div>
-        <div class="small-4 large-4 columns right mysettings"><a href="javascript:void(0)" ng-click="menu = !menu" ng-hide="settings"><i class="pe-7s-menu pe-2x">         </i></a><a href="javascript:void(0)" ng-click="settings = !settings" ng-show="settings"><i class="pe-7s-close pe-3x closeRight"></i></a></div>
+        <div class="small-4 large-4 columns right mysettings">
+          <div class="row">
+            <div class="columns large-10 small-10">
+              <input type="search" placeholder="Search" ng-model="fuzzySearch" class="search"/>
+            </div>
+            <div class="columns large-1 small-1 right"></div>
+            <div class="columns large-1 small-1 right"><a href="javascript:void(0)" ng-click="menu = !menu" ng-hide="settings"><i class="pe-7s-menu pe-2x">         </i></a><a href="javascript:void(0)" ng-click="settings = !settings" ng-show="settings"><i class="pe-7s-close pe-3x closeRight"></i></a></div>
+          </div>
+        </div>
       </div>
       <div class="content">
         <div ng-show="menu" class="menu fadeDown">
@@ -51,26 +54,24 @@
             </div>
           </div>
         </div>
-        <div sticky-table-header="sticky-table-header" rows="rowCollection" disabled="expression" class="music">
-          <table ng-class="{blurOut: focus}">
+        <div class="music">
+          <table ng-class="{blurOut: focus || playlistFocus}">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Album</th>
-                <th>Year              </th>
-                <th>Genre              </th>
-                <th>Play Count</th>
+                <th ng-click="reverse=!reverse; order('Name',reverse)">Title</th>
+                <th ng-click="reverse=!reverse; order('Artist',reverse)">Artist</th>
+                <th ng-click="reverse=!reverse; order('Album',reverse)">Album</th>
+                <th ng-click="reverse=!reverse; order('Year',reverse)">Year              </th>
+                <th ng-click="reverse=!reverse; order('Genre',reverse)">Genre              </th>
               </tr>
             </thead>
             <tbody ng-if="populated">
-              <tr ng-repeat="song in library" ng-click="getSong(song)">
+              <tr ng-repeat="song in library | filter:fuzzySearch" ng-click="getSong(song)">
                 <td>{{song.Name}}</td>
                 <td>{{song.Artist}}              </td>
                 <td>{{song.Album}}</td>
                 <td>{{song.Year}}</td>
                 <td>{{song.Genre}}</td>
-                <td>{{song["Play Count"]}}</td>
               </tr>
             </tbody>
           </table>
@@ -78,7 +79,7 @@
         <div ng-show="settings" class="settings fadeIn center">
           <h4>THEME:</h4>
           <div class="select-style center">
-            <select ng-model="theme" ng-options="theme as theme for theme in themes"></select>
+            <select ng-model="theme" ng-options="theme as theme for theme in themes" ng-change="setUserTheme()"></select>
           </div><br/><br/>
           <div ng-show="localVersion &lt; currentVersion" class="update">
             <h4>Apollo is Out of Date. </h4>
@@ -89,7 +90,7 @@
           <div id="loading"><span></span><span></span><span></span>
           </div>
         </div>
-        <div ng-show="focus" ng-click="unBlur()" class="focusBlur fadeIn"></div>
+        <div ng-show="focus || playlistFocus" ng-click="unBlur(); playlistFocus = false" class="focusBlur fadeIn"></div>
         <div ng-show="alert" ng-click="alert = !alert" class="alert fadeIn">
           <div class="message center block">
             <div class="content centered">   
@@ -111,17 +112,18 @@
                 <p ng-repeat="song in selectedSong.Children">{{song._id}}</p>
               </div>
             </div>
-            <div class="columns large-6 small-6">
-              <div ng-if="addSong" class="bubble">
-                <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="seeMore">
+            <div class="columns large-6 small-6 fixHeight">
+              <div ng-if="addSong" class="bubble fadeIn">
+                <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 0" class="seeMore">
                    
-                  See {{ (library | filter:addSong).length - 6}} More Results.
+                  {{ (library | filter:addSong).length}} Results.
                 </p>
-                <div ng-repeat="song in dogs = (library | filter:addSong | limitTo:6)" class="container"> 
-                  <p ng-click="addLink(song);"> {{song.Name}} - {{song.Artist}}</p>
+                <p ng-if="addSong &amp;&amp; (library | filter:addSong).length == 0" class="seeMore">No Results</p>
+                <div class="results">
+                  <div ng-repeat="song in dogs = (library | filter:addSong)" class="container"> 
+                    <p ng-click="addLink(song);"> {{song.Name}} - {{song.Artist}}</p>
+                  </div>
                 </div>
-                <p ng-if="addSong &amp;&amp; (library | filter:addSong).length &gt; 6" class="indent">...</p>
-                <p ng-if="addSong &amp;&amp; (library | filter:addSong).length == 0" class="indent">No Results</p>
               </div>
               <div class="info">
                 <div ng-repeat="child in currentSongChildren" class="child"><span>
@@ -135,7 +137,7 @@
                 <div ng-click="generatePlaylist(selectedSong._id);" class="bottomButton center"><a> <i class="pe-7s-musiclist pe-va pe-2x"></i>Make Playlist (25)</a></div>
               </div>
               <div class="columns large-6 small-6">
-                <div ng-click="delete(selectedSong._id);" class="bottomButton center"><a> <i class="pe-7s-trash pe-va pe-2x"></i>Delete From Apollo</a></div>
+                <div ng-click="delete(selectedSong);" class="bottomButton center"><a> <i class="pe-7s-trash pe-va pe-2x"></i>Delete From Apollo</a></div>
               </div>
             </div>
           </div>
@@ -164,10 +166,11 @@
       </div>
     </div>
     <script>
-      var gui = require('nw.gui');
-      var mb = new gui.Menu({type:"menubar"});
-      mb.createMacBuiltin("your-app-name");
-      gui.Window.get().menu = mb;
+      win.on('close', function() {
+        this.hide(); // Pretend to be closed already
+        console.log("We're closing...");
+        this.close(true);
+      });
     </script>
   </body>
 </html>

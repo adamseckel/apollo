@@ -4,7 +4,11 @@
   "main": "index.html",
   "window": {
     "toolbar": false,
-    "frame": false
+    "frame": false,
+    "min_width": 800,
+    "min_height": 500,    
+    "width": 800,
+    "height": 500
   },
   "dependencies": {
     "itunes-data": "^0.1.1",
